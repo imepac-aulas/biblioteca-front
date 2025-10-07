@@ -1,62 +1,393 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Biblioteca+ Soluções | Transformando a Gestão de Bibliotecas</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Conecta - Seu portal para o conhecimento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- Configurações Globais e Variáveis --- */
+        :root {
+            --primary-color: #0077b6; /* Azul corporativo */
+            --secondary-color: #00b4d8;
+            --background-color: #f8f9fa;
+            --text-color: #343a40;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --border-radius: 8px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Lora', serif;
+        }
+        
+        /* --- Cabeçalho e Navegação --- */
+        .main-header {
+            background-color: var(--card-bg);
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .main-header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Lora', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .main-nav a {
+            margin-left: 25px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .main-nav a:hover {
+            color: var(--primary-color);
+        }
+
+        /* --- Seção Hero (Busca Principal) --- */
+        .hero {
+            background: linear-gradient(rgba(0, 119, 182, 0.8), rgba(0, 119, 182, 0.8)), url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&w=1200&q=80') no-repeat center center/cover;
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            max-width: 700px;
+            margin: 20px auto 0;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        #search-input {
+            flex-grow: 1;
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: var(--border-radius) 0 0 var(--border-radius);
+        }
+        #search-input:focus {
+            outline: 2px solid var(--secondary-color);
+        }
+
+        #search-button {
+            border: none;
+            background: var(--primary-color);
+            color: white;
+            padding: 0 25px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            transition: background 0.3s ease;
+        }
+        #search-button:hover {
+            background: #005f8d;
+        }
+        
+        .category-filters {
+            margin-top: 20px;
+        }
+
+        .category-filters button {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid white;
+            color: white;
+            padding: 8px 15px;
+            margin: 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .category-filters button:hover, .category-filters button.active {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* --- Grid de Itens do Acervo --- */
+        .content-section {
+            padding: 60px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+        
+        .item-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+        
+        .item-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .item-card-content {
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .item-card-category {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--secondary-color);
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .item-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            flex-grow: 1;
+        }
+        
+        .item-card p {
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+        
+        #results-message {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #6c757d;
+            padding: 40px;
+        }
+
+        /* --- Footer --- */
+        .main-footer {
+            background-color: var(--text-color);
+            color: #adb5bd;
+            padding: 40px 0;
+            text-align: center;
+        }
+        .main-footer a {
+            color: var(--card-bg);
+            text-decoration: none;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            .search-bar {
+                flex-direction: column;
+            }
+            #search-input, #search-button {
+                border-radius: var(--border-radius);
+                margin-bottom: 5px;
+            }
+        }
+
+    </style>
 </head>
 <body>
-    <header>
-        <h1>Biblioteca+ Soluções</h1>
-        <p>Inovação e tecnologia para transformar a gestão de bibliotecas</p>
+
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Biblioteca Conecta</a>
+            <nav class="main-nav">
+                <a href="#search-section">Acervo</a>
+                <a href="#">Eventos</a>
+                <a href="#">Minha Conta</a>
+            </nav>
+        </div>
     </header>
+
     <main>
-        <section class="empresa">
-            <h2>Quem Somos</h2>
-            <p>
-                A <strong>Biblioteca+ Soluções</strong> é uma empresa especializada em sistemas inteligentes para gestão de bibliotecas. Atuamos em instituições de ensino, empresas e órgãos públicos, oferecendo tecnologia de ponta para automatizar processos, facilitar o acesso à informação e promover a cultura do conhecimento.
-            </p>
+        <section class="hero" id="search-section">
+            <div class="container">
+                <h1>Qual será sua próxima descoberta?</h1>
+                <p>Busque em nosso acervo completo de livros, revistas, eletrônicos e mais.</p>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Digite um título, autor ou palavra-chave...">
+                    <button id="search-button">Buscar</button>
+                </div>
+                <div class="category-filters">
+                    <button data-category="Todos" class="active">Todos</button>
+                    <button data-category="Livro">Livros</button>
+                    <button data-category="Revista">Revistas</button>
+                    <button data-category="Eletrônico">Eletrônicos</button>
+                    <button data-category="Material">Materiais</button>
+                </div>
+            </div>
         </section>
-        <section class="missao">
-            <h2>Missão</h2>
-            <p>
-                Facilitar o acesso ao conhecimento, promovendo inovação e eficiência na gestão de acervos, empréstimos e serviços bibliotecários.
-            </p>
-        </section>
-        <section class="valores">
-            <h2>Valores</h2>
-            <ul>
-                <li>Compromisso com a educação</li>
-                <li>Inovação tecnológica</li>
-                <li>Transparência e ética</li>
-                <li>Excelência no atendimento</li>
-                <li>Responsabilidade social</li>
-            </ul>
-        </section>
-        <section class="diferenciais">
-            <h2>Nossos Diferenciais</h2>
-            <ul>
-                <li>Sistema 100% online e seguro</li>
-                <li>Suporte especializado e treinamento</li>
-                <li>Relatórios inteligentes e personalizáveis</li>
-                <li>Integração com plataformas educacionais</li>
-                <li>Notificações automáticas e gestão de penalidades</li>
-            </ul>
-        </section>
-        <section class="contato">
-            <h2>Fale Conosco</h2>
-            <p>
-                Quer saber como podemos transformar a gestão da sua biblioteca? Entre em contato e agende uma demonstração!
-            </p>
-            <ul>
-                <li>Email: contato@bibliotecamais.com.br</li>
-                <li>Telefone: (31) 99999-0000</li>
-                <li>Endereço: Rua da Inovação, 123 - Centro, Belo Horizonte/MG</li>
-            </ul>
+
+        <section class="content-section" id="content-display">
+            <div class="container">
+                <h2 class="section-title" id="results-title">Novidades no Acervo</h2>
+                <div class="items-grid" id="items-grid">
+                    </div>
+                <p id="results-message" style="display: none;">Nenhum item encontrado.</p>
+            </div>
         </section>
     </main>
-    <footer>
-        <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Biblioteca Conecta. Todos os direitos reservados.</p>
+            <p>Av. do Conhecimento, 123 - Centro | <a href="#">Fale Conosco</a></p>
+        </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // --- 1. NOSSO ACERVO (SIMULAÇÃO DE BANCO DE DADOS) ---
+            const acervo = [
+                { id: 1, title: 'O Legado das Estrelas', author: 'Laura Mendes', type: 'Livro', img: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=300&q=60', isNew: true },
+                { id: 2, title: 'Revista Inovação Tech', author: 'Ed. Futuro', type: 'Revista', img: 'https://images.unsplash.com/photo-1585126685193-4e45c7a52e5a?auto=format&fit=crop&w=300&q=60', isNew: true },
+                { id: 3, title: 'Kit Arduino Básico', author: 'Componentes & Cia', type: 'Eletrônico', img: 'https://images.unsplash.com/photo-1577538312097-4d7f5733857c?auto=format&fit=crop&w=300&q=60', isNew: true },
+                { id: 4, title: 'A Sombra do Vento', author: 'Carlos Ruiz Zafón', type: 'Livro', img: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&w=300&q=60', isNew: false },
+                { id: 5, title: 'Microscópio Digital', author: 'LabTech', type: 'Material', img: 'https://images.unsplash.com/photo-1578495470879-11b212ef5470?auto=format&fit=crop&w=300&q=60', isNew: true },
+                { id: 6, title: 'National Geographic - Ed. 145', author: 'NatGeo', type: 'Revista', img: 'https://images.unsplash.com/photo-1574362146124-9f8d3c4573f8?auto=format&fit=crop&w=300&q=60', isNew: false },
+                { id: 7, title: 'Cem Anos de Solidão', author: 'Gabriel García Márquez', type: 'Livro', img: 'https://images.unsplash.com/photo-1543002588-b9b656603c14?auto=format&fit=crop&w=300&q=60', isNew: false },
+                { id: 8, title: 'Raspberry Pi 4', author: 'Raspberry Foundation', type: 'Eletrônico', img: 'https://images.unsplash.com/photo-1554415707-6e8cfc93fe23?auto=format&fit=crop&w=300&q=60', isNew: false },
+                { id: 9, title: 'Atlas Histórico Mundial', author: 'Diversos Autores', type: 'Material', img: 'https://images.unsplash.com/photo-1509228627152-72ae9ae6848d?auto=format&fit=crop&w=300&q=60', isNew: true },
+            ];
+
+            // --- 2. ELEMENTOS DO DOM ---
+            const itemsGrid = document.getElementById('items-grid');
+            const searchInput = document.getElementById('search-input');
+            const resultsTitle = document.getElementById('results-title');
+            const resultsMessage = document.getElementById('results-message');
+            const categoryFilters = document.querySelector('.category-filters');
+            
+            let activeCategory = 'Todos';
+
+            // --- 3. FUNÇÃO PARA RENDERIZAR OS ITENS ---
+            function renderItems(items) {
+                itemsGrid.innerHTML = ''; // Limpa o grid atual
+                
+                if (items.length === 0) {
+                    resultsMessage.style.display = 'block';
+                } else {
+                    resultsMessage.style.display = 'none';
+                }
+
+                items.forEach(item => {
+                    const card = `
+                        <div class="item-card">
+                            <img src="${item.img}" alt="${item.title}">
+                            <div class="item-card-content">
+                                <span class="item-card-category">${item.type}</span>
+                                <h3>${item.title}</h3>
+                                <p>${item.author}</p>
+                            </div>
+                        </div>
+                    `;
+                    itemsGrid.innerHTML += card;
+                });
+            }
+
+            // --- 4. FUNÇÃO PARA FILTRAR E ATUALIZAR A TELA ---
+            function filterAndRender() {
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                // Filtra o acervo
+                let filteredItems = acervo.filter(item => {
+                    const matchesCategory = (activeCategory === 'Todos' || item.type === activeCategory);
+                    const matchesSearch = item.title.toLowerCase().includes(searchTerm) || item.author.toLowerCase().includes(searchTerm);
+                    return matchesCategory && matchesSearch;
+                });
+                
+                // Atualiza o título da seção
+                if (searchTerm || activeCategory !== 'Todos') {
+                    resultsTitle.innerText = `Resultados para "${searchTerm || activeCategory}"`;
+                } else {
+                    resultsTitle.innerText = 'Novidades no Acervo';
+                    // Se não há busca, mostra apenas as novidades
+                    filteredItems = acervo.filter(item => item.isNew);
+                }
+
+                renderItems(filteredItems);
+            }
+
+            // --- 5. EVENT LISTENERS ---
+
+            // Listener para busca em tempo real (ao digitar)
+            searchInput.addEventListener('keyup', filterAndRender);
+            
+            // Listener para os botões de categoria
+            categoryFilters.addEventListener('click', (e) => {
+                if (e.target.tagName === 'BUTTON') {
+                    // Atualiza o botão ativo
+                    document.querySelector('.category-filters button.active').classList.remove('active');
+                    e.target.classList.add('active');
+                    
+                    activeCategory = e.target.dataset.category;
+                    filterAndRender();
+                }
+            });
+
+            // --- 6. CARREGAMENTO INICIAL ---
+            // Ao carregar a página, mostra as novidades
+            const newItems = acervo.filter(item => item.isNew);
+            renderItems(newItems);
+        });
+    </script>
 </body>
 </html>
