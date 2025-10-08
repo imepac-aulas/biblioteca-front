@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca+ | Gestão de Acervos</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header>
         <h1>📚 Biblioteca+ Soluções</h1>
@@ -13,21 +15,11 @@
     </header>
 
     <nav>
-        <button class="nav-btn" onclick="showModule('usuarios')">
-            👥 Usuários
-        </button>
-        <button class="nav-btn active" onclick="showModule('acervos')">
-            📖 Acervos
-        </button>
-        <button class="nav-btn" onclick="showModule('emprestimos')">
-            📤 Empréstimos
-        </button>
-        <button class="nav-btn" onclick="showModule('reservas')">
-            🔖 Reservas
-        </button>
-        <button class="nav-btn" onclick="showModule('relatorios')">
-            📊 Relatórios
-        </button>
+        <a href="../modulo1-cadastro-usuarios/index.html" class="nav-btn">👥 Usuários</a>
+        <a href="../modulo2-gestao-acervos/index.html" class="nav-btn">📖 Acervos</a>
+        <a href="../modulo3-emprestimos-devolucoes/index.html" class="nav-btn">📤 Empréstimos</a>
+        <a href="../modulo4-reservas/index.html" class="nav-btn">🔖 Reservas</a>
+        <a href="../modulo5-notificacoes-relatorios/index.html" class="nav-btn">📊 Relatórios</a>
     </nav>
 
     <main>
@@ -143,7 +135,9 @@
                             </tr>
                         </thead>
                         <tbody id="acervosTable">
-                            <tr><td colspan="6" class="empty-state">Nenhum acervo cadastrado.</td></tr>
+                            <tr>
+                                <td colspan="6" class="empty-state">Nenhum acervo cadastrado.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -169,4 +163,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>

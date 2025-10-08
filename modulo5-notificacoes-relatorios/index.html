@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca+ | Relatórios e Notificações</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>📚 Biblioteca+ Soluções</h1>
+        <p>Sistema Completo de Gestão Bibliotecária</p>
+    </header>
+
+    <nav>
+        <a href="../modulo1-cadastro-usuarios/index.html" class="nav-btn">👥 Usuários</a>
+        <a href="../modulo2-gestao-acervos/index.html" class="nav-btn">📖 Acervos</a>
+        <a href="../modulo3-emprestimos-devolucoes/index.html" class="nav-btn">📤 Empréstimos</a>
+        <a href="../modulo4-reservas/index.html" class="nav-btn">🔖 Reservas</a>
+        <a href="../modulo5-notificacoes-relatorios/index.html" class="nav-btn">📊 Relatórios</a>
+    </nav>
+
+    <main>
+        <!-- MÓDULO 1: CADASTRO DE USUÁRIOS -->
+        <div id="usuarios" class="module">
+        </div>
+
+        <!-- MÓDULO 2: GESTÃO DE ACERVOS -->
+        <div id="acervos" class="module">
+        </div>
+
+        <!-- MÓDULO 3: EMPRÉSTIMOS E DEVOLUÇÕES -->
+        <div id="emprestimos" class="module">
+        </div>
+
+        <!-- MÓDULO 4: RESERVAS -->
+        <div id="reservas" class="module">
+        </div>
+
+        <!-- MÓDULO 5: NOTIFICAÇÕES E RELATÓRIOS -->
+        <div id="relatorios" class="module active">
+            <div class="container">
+                <h2>📊 Relatórios e Estatísticas</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total de Usuários</h3>
+                        <p id="totalUsuarios">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total de Acervos</h3>
+                        <p id="totalAcervos">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Empréstimos Ativos</h3>
+                        <p id="totalEmprestimos">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Reservas Pendentes</h3>
+                        <p id="totalReservas">0</p>
+                    </div>
+                </div>
+                 <div class="btn-group">
+                    <button id="btnGerarRelatorio" class="btn btn-primary">Atualizar Estatísticas</button>
+                </div>
+            </div>
+            <div class="container">
+                <h2>🔔 Notificações Importantes</h2>
+                <div id="notifications">
+                    <p class="empty-state">Nenhuma notificação importante.</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

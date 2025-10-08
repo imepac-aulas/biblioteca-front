@@ -1,33 +1,25 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Biblioteca+ | Reservas</title>
     <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
     <header>
         <h1>📚 Biblioteca+ Soluções</h1>
         <p>Sistema Completo de Gestão Bibliotecária</p>
     </header>
-
+    
     <nav>
-        <button class="nav-btn" onclick="showModule('usuarios')">
-            👥 Usuários
-        </button>
-        <button class="nav-btn" onclick="showModule('acervos')">
-            📖 Acervos
-        </button>
-        <button class="nav-btn" onclick="showModule('emprestimos')">
-            📤 Empréstimos
-        </button>
-        <button class="nav-btn active" onclick="showModule('reservas')">
-            🔖 Reservas
-        </button>
-        <button class="nav-btn" onclick="showModule('relatorios')">
-            📊 Relatórios
-        </button>
+        <a href="../modulo1-cadastro-usuarios/index.html" class="nav-btn">👥 Usuários</a>
+        <a href="../modulo2-gestao-acervos/index.html" class="nav-btn">📖 Acervos</a>
+        <a href="../modulo3-emprestimos-devolucoes/index.html" class="nav-btn">📤 Empréstimos</a>
+        <a href="../modulo4-reservas/index.html" class="nav-btn">🔖 Reservas</a>
+        <a href="../modulo5-notificacoes-relatorios/index.html" class="nav-btn">📊 Relatórios</a>
     </nav>
 
     <main>
@@ -47,7 +39,7 @@
         <div id="reservas" class="module active">
             <div class="container">
                 <h2>🔖 Nova Reserva</h2>
-                 <div id="reservaSuccess" class="alert alert-success">✅ Reserva realizada com sucesso!</div>
+                <div id="reservaSuccess" class="alert alert-success">✅ Reserva realizada com sucesso!</div>
                 <form id="reservaForm">
                     <div class="form-grid">
                         <div class="form-group">
@@ -55,14 +47,14 @@
                             <select id="reservaUsuario">
                                 <option value="">Selecione o usuário</option>
                             </select>
-                             <div class="error-message" id="reservaUsuarioError">Selecione um usuário.</div>
+                            <div class="error-message" id="reservaUsuarioError">Selecione um usuário.</div>
                         </div>
                         <div class="form-group">
                             <label>Acervo (Emprestado)<span class="required">*</span></label>
                             <select id="reservaAcervo">
                                 <option value="">Selecione o acervo</option>
                             </select>
-                             <div class="error-message" id="reservaAcervoError">Selecione um acervo.</div>
+                            <div class="error-message" id="reservaAcervoError">Selecione um acervo.</div>
                         </div>
                     </div>
                     <div class="btn-group">
@@ -70,9 +62,9 @@
                     </div>
                 </form>
             </div>
-             <div class="container">
+            <div class="container">
                 <h2>📋 Reservas Ativas</h2>
-                 <div class="table-container">
+                <div class="table-container">
                     <table>
                         <thead>
                             <tr>
@@ -84,7 +76,9 @@
                             </tr>
                         </thead>
                         <tbody id="reservasTable">
-                           <tr><td colspan="5" class="empty-state">Nenhuma reserva encontrada.</td></tr>
+                            <tr>
+                                <td colspan="5" class="empty-state">Nenhuma reserva encontrada.</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -102,4 +96,5 @@
 
     <script src="script.js"></script>
 </body>
+
 </html>
