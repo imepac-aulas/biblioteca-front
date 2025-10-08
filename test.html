@@ -1,0 +1,2171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca+ | Sistema Completo de Gestão</title>
+    <style>
+        /* ===== ESTILOS GLOBAIS ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #40916c;
+            --primary-dark: #2d6a4f;
+            --primary-light: #52b788;
+            --secondary: #74c69d;
+            --success: #d8f3dc;
+            --danger: #e63946;
+            --warning: #ffc107;
+            --info: #0dcaf0;
+            --light-bg: #f8fafb;
+            --white: #ffffff;
+            --text-dark: #2c3e50;
+            --text-muted: #6c757d;
+            --border: #d8f3dc;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e9f5ec 0%, #f7fafc 100%);
+            color: var(--text-dark);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 40px 20px 28px 20px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(64, 145, 108, 0.2);
+            border-bottom-left-radius: 32px;
+            border-bottom-right-radius: 32px;
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* ===== NAVEGAÇÃO ===== */
+        nav {
+            background: var(--white);
+            max-width: 1400px;
+            margin: -20px auto 0 auto;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+            padding: 8px;
+            flex-wrap: wrap;
+        }
+
+        .nav-btn {
+            background: var(--light-bg);
+            color: var(--primary);
+            border: 2px solid transparent;
+            padding: 12px 24px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn:hover {
+            background: var(--success);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(64, 145, 108, 0.3);
+        }
+
+        /* ===== MAIN CONTAINER ===== */
+        main {
+            max-width: 1400px;
+            margin: 40px auto 32px auto;
+            padding: 0 20px;
+        }
+
+        .module {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .module.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== CONTAINERS ===== */
+        .container {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 8px 40px rgba(44, 62, 80, 0.08);
+            padding: 36px;
+            margin-bottom: 32px;
+        }
+
+        h2 {
+            color: var(--primary);
+            font-size: 1.9rem;
+            margin-bottom: 24px;
+            font-weight: 700;
+            border-bottom: 3px solid var(--primary-light);
+            padding-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        h3 {
+            color: var(--primary-dark);
+            font-size: 1.4rem;
+            margin-bottom: 16px;
+            font-weight: 600;
+        }
+
+        /* ===== FORMS ===== */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--primary-dark);
+            font-weight: 600;
+            font-size: 1rem;
+        }
+
+        .required {
+            color: var(--danger);
+            margin-left: 4px;
+        }
+
+        .optional {
+            color: var(--text-muted);
+            font-weight: 400;
+            font-size: 0.85rem;
+            margin-left: 4px;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.3s ease;
+            background: var(--light-bg);
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(64, 145, 108, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .input-error {
+            border-color: var(--danger) !important;
+            background: #fff5f5 !important;
+        }
+
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            margin-top: 6px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .error-message.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            margin-top: 24px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 14px 32px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            box-shadow: 0 4px 12px rgba(64, 145, 108, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(64, 145, 108, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--text-muted);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #c82333;
+        }
+
+        .btn-success {
+            background: #28a745;
+            color: var(--white);
+        }
+
+        .btn-success:hover {
+            background: #218838;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
+        /* ===== ALERTS ===== */
+        .alert {
+            padding: 16px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: none;
+            font-weight: 500;
+            border-left: 4px solid;
+        }
+
+        .alert.show {
+            display: block;
+            animation: slideIn 0.4s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .alert-success {
+            background: var(--success);
+            color: var(--primary-dark);
+            border-color: var(--primary);
+        }
+
+        .alert-danger {
+            background: #f8d7da;
+            color: #842029;
+            border-color: var(--danger);
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-color: var(--warning);
+        }
+
+        .alert-info {
+            background: #cfe2ff;
+            color: #084298;
+            border-color: var(--info);
+        }
+
+        /* ===== TABLES ===== */
+        .table-container {
+            overflow-x: auto;
+            margin-top: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--white);
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+        }
+
+        th {
+            padding: 14px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.95rem;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--light-bg);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        /* ===== BADGES ===== */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge-success {
+            background: var(--success);
+            color: var(--primary-dark);
+        }
+
+        .badge-warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .badge-info {
+            background: #cfe2ff;
+            color: #084298;
+        }
+
+        .badge-danger {
+            background: #f8d7da;
+            color: #842029;
+        }
+
+        .badge-secondary {
+            background: #e9ecef;
+            color: #495057;
+        }
+
+        /* ===== STATS CARDS ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            padding: 24px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 16px rgba(64, 145, 108, 0.2);
+        }
+
+        .stat-card h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            opacity: 0.9;
+            color: var(--white);
+        }
+
+        .stat-card p {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        /* ===== SEARCH BOX ===== */
+        .search-box {
+            background: var(--light-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            margin-bottom: 24px;
+        }
+
+        /* ===== LOAN CARD ===== */
+        .loan-card {
+            background: var(--white);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .loan-card:hover {
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .loan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .loan-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+
+        /* ===== NOTIFICATION ITEM ===== */
+        .notification-item {
+            background: var(--white);
+            border-left: 4px solid var(--primary);
+            padding: 16px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .notification-item.unread {
+            background: var(--success);
+        }
+
+        .notification-item.warning {
+            border-left-color: var(--warning);
+        }
+
+        .notification-item.danger {
+            border-left-color: var(--danger);
+        }
+
+        .notification-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .notification-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .notification-time {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 24px 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: var(--white);
+            font-size: 1rem;
+            border-top-left-radius: 32px;
+            border-top-right-radius: 32px;
+            box-shadow: 0 -4px 20px rgba(64, 145, 108, 0.15);
+            margin-top: 60px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            nav {
+                margin: -16px 16px 0 16px;
+            }
+
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 0.9rem;
+            }
+
+            main {
+                padding: 0 12px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-group {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 8px 6px;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    <header>
+        <h1>📚 Biblioteca+ Soluções</h1>
+        <p>Sistema Completo de Gestão Bibliotecária</p>
+    </header>
+
+    <nav>
+        <button class="nav-btn active" onclick="showModule('usuarios')">
+            👥 Usuários
+        </button>
+        <button class="nav-btn" onclick="showModule('acervos')">
+            📖 Acervos
+        </button>
+        <button class="nav-btn" onclick="showModule('emprestimos')">
+            📤 Empréstimos
+        </button>
+        <button class="nav-btn" onclick="showModule('reservas')">
+            🔖 Reservas
+        </button>
+        <button class="nav-btn" onclick="showModule('relatorios')">
+            📊 Relatórios
+        </button>
+    </nav>
+
+    <main>
+        <!-- ============================================ -->
+        <!-- MÓDULO 1: CADASTRO DE USUÁRIOS -->
+        <!-- ============================================ -->
+        <div id="usuarios" class="module active">
+            <div class="container">
+                <h2>👥 Cadastro de Usuários</h2>
+                
+                <div id="usuarioSuccess" class="alert alert-success">
+                    ✅ Usuário cadastrado com sucesso!
+                </div>
+
+                <div id="usuarioError" class="alert alert-danger">
+                    ❌ Por favor, corrija os erros no formulário.
+                </div>
+
+                <form id="usuarioForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nome Completo<span class="required">*</span></label>
+                            <input type="text" id="usuarioNome" placeholder="Ex: Maria Silva Santos">
+                            <div class="error-message" id="usuarioNomeError">O nome completo é obrigatório.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>CPF<span class="required">*</span></label>
+                            <input type="text" id="usuarioCpf" placeholder="000.000.000-00" maxlength="14">
+                            <div class="error-message" id="usuarioCpfError">CPF inválido.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>E-mail<span class="required">*</span></label>
+                            <input type="email" id="usuarioEmail" placeholder="usuario@email.com">
+                            <div class="error-message" id="usuarioEmailError">E-mail inválido.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Telefone<span class="required">*</span></label>
+                            <input type="tel" id="usuarioTelefone" placeholder="(00) 00000-0000" maxlength="15">
+                            <div class="error-message" id="usuarioTelefoneError">Telefone inválido.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipo de Usuário<span class="required">*</span></label>
+                            <select id="usuarioTipo">
+                                <option value="">Selecione</option>
+                                <option value="Aluno">Aluno</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Colaborador">Colaborador</option>
+                            </select>
+                            <div class="error-message" id="usuarioTipoError">Selecione o tipo de usuário.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Matrícula/Registro<span class="required">*</span></label>
+                            <input type="text" id="usuarioMatricula" placeholder="Ex: 2024001">
+                            <div class="error-message" id="usuarioMatriculaError">Matrícula obrigatória.</div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparUsuarioForm()">
+                            🔄 Limpar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            💾 Cadastrar Usuário
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container">
+                <h2>📋 Usuários Cadastrados</h2>
+                
+                <div class="search-box">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>🔍 Buscar por Nome</label>
+                            <input type="text" id="searchUsuarioNome" placeholder="Digite o nome...">
+                        </div>
+                        <div class="form-group">
+                            <label>Filtrar por Tipo</label>
+                            <select id="searchUsuarioTipo">
+                                <option value="">Todos</option>
+                                <option value="Aluno">Aluno</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Colaborador">Colaborador</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Tipo</th>
+                                <th>Matrícula</th>
+                                <th>Status</th>
+                                <th>Empréstimos</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosTable">
+                            <tr><td colspan="7" class="empty-state">Nenhum usuário cadastrado.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MÓDULO 2: GESTÃO DE ACERVOS -->
+        <!-- ============================================ -->
+        <div id="acervos" class="module">
+            <div class="container">
+                <h2>📖 Cadastro de Acervos</h2>
+                
+                <div id="acervoSuccess" class="alert alert-success">
+                    ✅ Acervo cadastrado com sucesso!
+                </div>
+
+                <form id="acervoForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Título<span class="required">*</span></label>
+                            <input type="text" id="acervoTitulo" placeholder="Ex: Inteligência Artificial">
+                            <div class="error-message" id="acervoTituloError">O título é obrigatório.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Autor<span class="required">*</span></label>
+                            <input type="text" id="acervoAutor" placeholder="Ex: Stuart Russell">
+                            <div class="error-message" id="acervoAutorError">O autor é obrigatório.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Categoria<span class="required">*</span></label>
+                            <select id="acervoCategoria">
+                                <option value="">Selecione</option>
+                                <option value="Livro">📚 Livro</option>
+                                <option value="Revista">📰 Revista</option>
+                                <option value="Eletrônico">💻 Eletrônico</option>
+                            </select>
+                            <div class="error-message" id="acervoCategoriaError">Selecione a categoria.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tipo de Material<span class="required">*</span></label>
+                            <select id="acervoTipo">
+                                <option value="">Selecione</option>
+                                <option value="Livro Físico">Livro Físico</option>
+                                <option value="Revista">Revista</option>
+                                <option value="Tablet">Tablet</option>
+                                <option value="Notebook">Notebook</option>
+                                <option value="E-reader">E-reader</option>
+                            </select>
+                            <div class="error-message" id="acervoTipoError">Selecione o tipo.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Exemplares<span class="required">*</span></label>
+                            <input type="number" id="acervoExemplares" min="1" value="1">
+                            <div class="error-message" id="acervoExemplaresError">Mínimo 1 exemplar.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Status Inicial<span class="required">*</span></label>
+                            <select id="acervoStatus">
+                                <option value="Disponível">✅ Disponível</option>
+                                <option value="Em Manutenção">🔧 Em Manutenção</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group full-width">
+                            <label>Descrição<span class="optional">(opcional)</span></label>
+                            <textarea id="acervoDescricao" placeholder="Informações adicionais..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparAcervoForm()">
+                            🔄 Limpar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            💾 Cadastrar Acervo
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container">
+                <h2>📚 Acervos Cadastrados</h2>
+                
+                <div class="search-box">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>🔍 Título</label>
+                            <input type="text" id="searchAcervoTitulo" placeholder="Buscar por título...">
+                        </div>
+                        <div class="form-group">
+                            <label>Autor</label>
+                            <input type="text" id="searchAcervoAutor" placeholder="Buscar por autor...">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="searchAcervoCategoria">
+                                <option value="">Todas</option>
+                                <option value="Livro">Livro</option>
+                                <option value="Revista">Revista</option>
+                                <option value="Eletrônico">Eletrônico</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="searchAcervoStatus">
+                                <option value="">Todos</option>
+                                <option value="Disponível">Disponível</option>
+                                <option value="Emprestado">Emprestado</option>
+                                <option value="Reservado">Reservado</option>
+                                <option value="Em Manutenção">Em Manutenção</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Categoria</th>
+                                <th>Exemplares</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="acervosTable">
+                            <tr><td colspan="6" class="empty-state">Nenhum acervo cadastrado.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MÓDULO 3: EMPRÉSTIMOS E DEVOLUÇÕES -->
+        <!-- ============================================ -->
+        <div id="emprestimos" class="module">
+            <div class="container">
+                <h2>📤 Novo Empréstimo</h2>
+                
+                <div id="emprestimoSuccess" class="alert alert-success">
+                    ✅ Empréstimo realizado com sucesso!
+                </div>
+
+                <div id="emprestimoWarning" class="alert alert-warning">
+                    ⚠️ Atenção: Verifique os avisos antes de continuar.
+                </div>
+
+                <form id="emprestimoForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Usuário<span class="required">*</span></label>
+                            <select id="emprestimoUsuario">
+                                <option value="">Selecione o usuário</option>
+                            </select>
+                            <div class="error-message" id="emprestimoUsuarioError">Selecione um usuário.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Acervo<span class="required">*</span></label>
+                            <select id="emprestimoAcervo">
+                                <option value="">Selecione o acervo</option>
+                            </select>
+                            <div class="error-message" id="emprestimoAcervoError">Selecione um acervo disponível.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Data de Empréstimo<span class="required">*</span></label>
+                            <input type="date" id="emprestimoDataInicio">
+                            <div class="error-message" id="emprestimoDataInicioError">Data inválida.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Data de Devolução Prevista</label>
+                            <input type="date" id="emprestimoDataFim" readonly>
+                            <small style="color: var(--text-muted); margin-top: 4px; display: block;">Calculada automaticamente</small>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparEmprestimoForm()">
+                            🔄 Limpar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            📤 Realizar Empréstimo
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container">
+                <h2>📋 Empréstimos Ativos</h2>
+                
+                <div id="emprestimosAtivos"></div>
+            </div>
+
+            <div class="container">
+                <h2>✅ Histórico de Devoluções</h2>
+                
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Acervo</th>
+                                <th>Empréstimo</th>
+                                <th>Devolução</th>
+                                <th>Status</th>
+                                <th>Multa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="devolucoes Table">
+                            <tr><td colspan="6" class="empty-state">Nenhuma devolução registrada.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MÓDULO 4: RESERVAS -->
+        <!-- ============================================ -->
+        <div id="reservas" class="module">
+            <div class="container">
+                <h2>🔖 Nova Reserva</h2>
+                
+                <div id="reservaSuccess" class="alert alert-success">
+                    ✅ Reserva realizada com sucesso!
+                </div>
+
+                <form id="reservaForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Usuário<span class="required">*</span></label>
+                            <select id="reservaUsuario">
+                                <option value="">Selecione o usuário</option>
+                            </select>
+                            <div class="error-message" id="reservaUsuarioError">Selecione um usuário.</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Acervo Indisponível<span class="required">*</span></label>
+                            <select id="reservaAcervo">
+                                <option value="">Selecione o acervo</option>
+                            </select>
+                            <div class="error-message" id="reservaAcervoError">Selecione um acervo.</div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparReservaForm()">
+                            🔄 Limpar
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            🔖 Realizar Reserva
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="container">
+                <h2>📋 Reservas Ativas</h2>
+                
+                <div id="reservasAtivas"></div>
+            </div>
+        </div>
+
+        <!-- ============================================ -->
+        <!-- MÓDULO 5: NOTIFICAÇÕES E RELATÓRIOS -->
+        <!-- ============================================ -->
+        <div id="relatorios" class="module">
+            <div class="container">
+                <h2>📊 Estatísticas Gerais</h2>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3>Total de Usuários</h3>
+                        <p id="statUsuarios">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total de Acervos</h3>
+                        <p id="statAcervos">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Empréstimos Ativos</h3>
+                        <p id="statEmprestimosAtivos">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Reservas Pendentes</h3>
+                        <p id="statReservas">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Itens Disponíveis</h3>
+                        <p id="statDisponiveis">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Empréstimos em Atraso</h3>
+                        <p id="statAtrasados">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <h2>🔔 Notificações do Sistema</h2>
+                
+                <div id="notificacoes"></div>
+            </div>
+
+            <div class="container">
+                <h2>📈 Relatórios</h2>
+                
+                <h3>📚 Acervos Mais Emprestados</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Posição</th>
+                                <th>Título</th>
+                                <th>Categoria</th>
+                                <th>Total de Empréstimos</th>
+                            </tr>
+                        </thead>
+                        <tbody id="relatorioMaisEmprestados">
+                            <tr><td colspan="4" class="empty-state">Nenhum empréstimo registrado ainda.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="margin-top: 32px;">⚠️ Usuários em Atraso</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Usuário</th>
+                                <th>Acervo</th>
+                                <th>Data Prevista</th>
+                                <th>Dias em Atraso</th>
+                                <th>Multa</th>
+                            </tr>
+                        </thead>
+                        <tbody id="relatorioAtrasados">
+                            <tr><td colspan="5" class="empty-state">Nenhum empréstimo em atraso.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+    </footer>
+
+    <script>
+        // ========================================
+        // DADOS GLOBAIS (Simulação de Banco de Dados)
+        // ========================================
+        const dados = {
+            usuarios: [],
+            acervos: [],
+            emprestimos: [],
+            reservas: [],
+            devolucoes: [],
+            notificacoes: []
+        };
+
+        let idCounter = {
+            usuario: 1,
+            acervo: 1,
+            emprestimo: 1,
+            reserva: 1
+        };
+
+        // ========================================
+        // FUNÇÕES DE NAVEGAÇÃO
+        // ========================================
+        function showModule(moduleId) {
+            document.querySelectorAll('.module').forEach(m => m.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            
+            document.getElementById(moduleId).classList.add('active');
+            event.target.classList.add('active');
+
+            if (moduleId === 'emprestimos') {
+                atualizarSelectUsuarios('emprestimoUsuario');
+                atualizarSelectAcervosDisponiveis();
+            } else if (moduleId === 'reservas') {
+                atualizarSelectUsuarios('reservaUsuario');
+                atualizarSelectAcervosIndisponiveis();
+            } else if (moduleId === 'relatorios') {
+                atualizarEstatisticas();
+                gerarNotificacoes();
+                gerarRelatorios();
+            }
+        }
+
+        // ========================================
+        // MÓDULO 1: USUÁRIOS
+        // ========================================
+        
+        // Máscaras de input
+        document.getElementById('usuarioCpf')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                e.target.value = value;
+            }
+        });
+
+        document.getElementById('usuarioTelefone')?.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length <= 11) {
+                value = value.replace(/(\d{2})(\d)/, '($1) $2');
+                value = value.replace(/(\d{5})(\d)/, '$1-$2');
+                e.target.value = value;
+            }
+        });
+
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/\D/g, '');
+            if (cpf.length !== 11) return false;
+            if (/^(\d)\1+$/.test(cpf)) return false;
+            return true;
+        }
+
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function validarUsuarioForm() {
+            limparErros('usuario');
+            let valido = true;
+
+            const nome = document.getElementById('usuarioNome').value.trim();
+            if (nome === '' || nome.length < 3) {
+                mostrarErro('usuarioNome', 'usuarioNomeError');
+                valido = false;
+            }
+
+            const cpf = document.getElementById('usuarioCpf').value;
+            if (!validarCPF(cpf)) {
+                mostrarErro('usuarioCpf', 'usuarioCpfError');
+                valido = false;
+            }
+
+            const email = document.getElementById('usuarioEmail').value;
+            if (!validarEmail(email)) {
+                mostrarErro('usuarioEmail', 'usuarioEmailError');
+                valido = false;
+            }
+
+            const telefone = document.getElementById('usuarioTelefone').value.replace(/\D/g, '');
+            if (telefone.length < 10) {
+                mostrarErro('usuarioTelefone', 'usuarioTelefoneError');
+                valido = false;
+            }
+
+            const tipo = document.getElementById('usuarioTipo').value;
+            if (tipo === '') {
+                mostrarErro('usuarioTipo', 'usuarioTipoError');
+                valido = false;
+            }
+
+            const matricula = document.getElementById('usuarioMatricula').value.trim();
+            if (matricula === '') {
+                mostrarErro('usuarioMatricula', 'usuarioMatriculaError');
+                valido = false;
+            }
+
+            if (!valido) {
+                mostrarAlerta('usuarioError');
+            }
+
+            return valido;
+        }
+
+        document.getElementById('usuarioForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validarUsuarioForm()) return;
+
+            const usuario = {
+                id: idCounter.usuario++,
+                nome: document.getElementById('usuarioNome').value.trim(),
+                cpf: document.getElementById('usuarioCpf').value,
+                email: document.getElementById('usuarioEmail').value,
+                telefone: document.getElementById('usuarioTelefone').value,
+                tipo: document.getElementById('usuarioTipo').value,
+                matricula: document.getElementById('usuarioMatricula').value.trim(),
+                status: 'Ativo',
+                emprestimosAtivos: 0,
+                limiteEmprestimos: 5,
+                dataCadastro: new Date().toISOString()
+            };
+
+            dados.usuarios.push(usuario);
+            mostrarAlerta('usuarioSuccess');
+            limparUsuarioForm();
+            renderizarUsuarios();
+            
+            setTimeout(() => ocultarAlerta('usuarioSuccess'), 3000);
+        });
+
+        function renderizarUsuarios() {
+            const tbody = document.getElementById('usuariosTable');
+            const searchNome = document.getElementById('searchUsuarioNome').value.toLowerCase();
+            const searchTipo = document.getElementById('searchUsuarioTipo').value;
+
+            const usuariosFiltrados = dados.usuarios.filter(u => {
+                const matchNome = u.nome.toLowerCase().includes(searchNome);
+                const matchTipo = searchTipo === '' || u.tipo === searchTipo;
+                return matchNome && matchTipo;
+            });
+
+            if (usuariosFiltrados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" class="empty-state">Nenhum usuário encontrado.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = usuariosFiltrados.map(u => `
+                <tr>
+                    <td>${u.nome}</td>
+                    <td>${u.cpf}</td>
+                    <td><span class="badge badge-info">${u.tipo}</span></td>
+                    <td>${u.matricula}</td>
+                    <td><span class="badge badge-${u.status === 'Ativo' ? 'success' : 'danger'}">${u.status}</span></td>
+                    <td>${u.emprestimosAtivos}/${u.limiteEmprestimos}</td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="removerUsuario(${u.id})">🗑️</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function removerUsuario(id) {
+            if (confirm('Deseja realmente remover este usuário?')) {
+                const index = dados.usuarios.findIndex(u => u.id === id);
+                if (index !== -1) {
+                    dados.usuarios.splice(index, 1);
+                    renderizarUsuarios();
+                }
+            }
+        }
+
+        function limparUsuarioForm() {
+            document.getElementById('usuarioForm').reset();
+            limparErros('usuario');
+        }
+
+        document.getElementById('searchUsuarioNome')?.addEventListener('input', renderizarUsuarios);
+        document.getElementById('searchUsuarioTipo')?.addEventListener('change', renderizarUsuarios);
+
+        // ========================================
+        // MÓDULO 2: ACERVOS
+        // ========================================
+        
+        function validarAcervoForm() {
+            limparErros('acervo');
+            let valido = true;
+
+            const titulo = document.getElementById('acervoTitulo').value.trim();
+            if (titulo === '') {
+                mostrarErro('acervoTitulo', 'acervoTituloError');
+                valido = false;
+            }
+
+            const autor = document.getElementById('acervoAutor').value.trim();
+            if (autor === '') {
+                mostrarErro('acervoAutor', 'acervoAutorError');
+                valido = false;
+            }
+
+            const categoria = document.getElementById('acervoCategoria').value;
+            if (categoria === '') {
+                mostrarErro('acervoCategoria', 'acervoCategoriaError');
+                valido = false;
+            }
+
+            const tipo = document.getElementById('acervoTipo').value;
+            if (tipo === '') {
+                mostrarErro('acervoTipo', 'acervoTipoError');
+                valido = false;
+            }
+
+            const exemplares = parseInt(document.getElementById('acervoExemplares').value);
+            if (isNaN(exemplares) || exemplares < 1) {
+                mostrarErro('acervoExemplares', 'acervoExemplaresError');
+                valido = false;
+            }
+
+            return valido;
+        }
+
+        document.getElementById('acervoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validarAcervoForm()) return;
+
+            const acervo = {
+                id: idCounter.acervo++,
+                titulo: document.getElementById('acervoTitulo').value.trim(),
+                autor: document.getElementById('acervoAutor').value.trim(),
+                categoria: document.getElementById('acervoCategoria').value,
+                tipo: document.getElementById('acervoTipo').value,
+                exemplares: parseInt(document.getElementById('acervoExemplares').value),
+                exemplaresDisponiveis: parseInt(document.getElementById('acervoExemplares').value),
+                status: document.getElementById('acervoStatus').value,
+                descricao: document.getElementById('acervoDescricao').value.trim(),
+                totalEmprestimos: 0,
+                dataCadastro: new Date().toISOString()
+            };
+
+            dados.acervos.push(acervo);
+            mostrarAlerta('acervoSuccess');
+            limparAcervoForm();
+            renderizarAcervos();
+            
+            setTimeout(() => ocultarAlerta('acervoSuccess'), 3000);
+        });
+
+        function renderizarAcervos() {
+            const tbody = document.getElementById('acervosTable');
+            const searchTitulo = document.getElementById('searchAcervoTitulo').value.toLowerCase();
+            const searchAutor = document.getElementById('searchAcervoAutor').value.toLowerCase();
+            const searchCategoria = document.getElementById('searchAcervoCategoria').value;
+            const searchStatus = document.getElementById('searchAcervoStatus').value;
+
+            const acervosFiltrados = dados.acervos.filter(a => {
+                const matchTitulo = a.titulo.toLowerCase().includes(searchTitulo);
+                const matchAutor = a.autor.toLowerCase().includes(searchAutor);
+                const matchCategoria = searchCategoria === '' || a.categoria === searchCategoria;
+                const matchStatus = searchStatus === '' || a.status === searchStatus;
+                return matchTitulo && matchAutor && matchCategoria && matchStatus;
+            });
+
+            if (acervosFiltrados.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nenhum acervo encontrado.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = acervosFiltrados.map(a => `
+                <tr>
+                    <td>${a.titulo}</td>
+                    <td>${a.autor}</td>
+                    <td><span class="badge badge-info">${a.categoria}</span></td>
+                    <td>${a.exemplaresDisponiveis}/${a.exemplares}</td>
+                    <td><span class="badge badge-${getStatusBadge(a.status)}">${a.status}</span></td>
+                    <td>
+                        <button class="btn btn-danger btn-sm" onclick="removerAcervo(${a.id})">🗑️</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function getStatusBadge(status) {
+            const map = {
+                'Disponível': 'success',
+                'Emprestado': 'warning',
+                'Reservado': 'info',
+                'Em Manutenção': 'danger'
+            };
+            return map[status] || 'secondary';
+        }
+
+        function removerAcervo(id) {
+            if (confirm('Deseja realmente remover este acervo?')) {
+                const index = dados.acervos.findIndex(a => a.id === id);
+                if (index !== -1) {
+                    dados.acervos.splice(index, 1);
+                    renderizarAcervos();
+                }
+            }
+        }
+
+        function limparAcervoForm() {
+            document.getElementById('acervoForm').reset();
+            limparErros('acervo');
+        }
+
+        document.getElementById('searchAcervoTitulo')?.addEventListener('input', renderizarAcervos);
+        document.getElementById('searchAcervoAutor')?.addEventListener('input', renderizarAcervos);
+        document.getElementById('searchAcervoCategoria')?.addEventListener('change', renderizarAcervos);
+        document.getElementById('searchAcervoStatus')?.addEventListener('change', renderizarAcervos);
+
+        // ========================================
+        // MÓDULO 3: EMPRÉSTIMOS E DEVOLUÇÕES
+        // ========================================
+        
+        function atualizarSelectUsuarios(selectId) {
+            const select = document.getElementById(selectId);
+            if (!select) return;
+            
+            const usuariosAtivos = dados.usuarios.filter(u => u.status === 'Ativo');
+            
+            select.innerHTML = '<option value="">Selecione o usuário</option>' +
+                usuariosAtivos.map(u => 
+                    `<option value="${u.id}">${u.nome} (${u.tipo}) - ${u.emprestimosAtivos}/${u.limiteEmprestimos}</option>`
+                ).join('');
+        }
+
+        function atualizarSelectAcervosDisponiveis() {
+            const select = document.getElementById('emprestimoAcervo');
+            if (!select) return;
+            
+            const acervosDisponiveis = dados.acervos.filter(a => 
+                a.status === 'Disponível' && a.exemplaresDisponiveis > 0
+            );
+            
+            select.innerHTML = '<option value="">Selecione o acervo</option>' +
+                acervosDisponiveis.map(a => 
+                    `<option value="${a.id}">${a.titulo} - ${a.categoria} (${a.exemplaresDisponiveis} disponíveis)</option>`
+                ).join('');
+        }
+
+        document.getElementById('emprestimoDataInicio')?.addEventListener('change', function() {
+            const dataInicio = new Date(this.value);
+            const acervoId = parseInt(document.getElementById('emprestimoAcervo').value);
+            
+            if (acervoId) {
+                const acervo = dados.acervos.find(a => a.id === acervoId);
+                const diasEmprestimo = acervo.categoria === 'Eletrônico' ? 7 : 15;
+                
+                const dataFim = new Date(dataInicio);
+                dataFim.setDate(dataFim.getDate() + diasEmprestimo);
+                
+                document.getElementById('emprestimoDataFim').value = dataFim.toISOString().split('T')[0];
+            }
+        });
+
+        document.getElementById('emprestimoAcervo')?.addEventListener('change', function() {
+            const dataInicio = document.getElementById('emprestimoDataInicio').value;
+            if (dataInicio) {
+                document.getElementById('emprestimoDataInicio').dispatchEvent(new Event('change'));
+            }
+        });
+
+        function validarEmprestimoForm() {
+            limparErros('emprestimo');
+            let valido = true;
+
+            const usuarioId = document.getElementById('emprestimoUsuario').value;
+            if (usuarioId === '') {
+                mostrarErro('emprestimoUsuario', 'emprestimoUsuarioError');
+                valido = false;
+            } else {
+                const usuario = dados.usuarios.find(u => u.id === parseInt(usuarioId));
+                if (usuario && usuario.emprestimosAtivos >= usuario.limiteEmprestimos) {
+                    mostrarErro('emprestimoUsuario', 'emprestimoUsuarioError');
+                    document.getElementById('emprestimoUsuarioError').textContent = 
+                        'Usuário atingiu o limite de empréstimos simultâneos.';
+                    valido = false;
+                }
+            }
+
+            const acervoId = document.getElementById('emprestimoAcervo').value;
+            if (acervoId === '') {
+                mostrarErro('emprestimoAcervo', 'emprestimoAcervoError');
+                valido = false;
+            }
+
+            const dataInicio = document.getElementById('emprestimoDataInicio').value;
+            if (dataInicio === '') {
+                mostrarErro('emprestimoDataInicio', 'emprestimoDataInicioError');
+                valido = false;
+            }
+
+            if (!valido) {
+                mostrarAlerta('emprestimoWarning');
+            }
+
+            return valido;
+        }
+
+        document.getElementById('emprestimoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validarEmprestimoForm()) return;
+
+            const usuarioId = parseInt(document.getElementById('emprestimoUsuario').value);
+            const acervoId = parseInt(document.getElementById('emprestimoAcervo').value);
+            
+            const usuario = dados.usuarios.find(u => u.id === usuarioId);
+            const acervo = dados.acervos.find(a => a.id === acervoId);
+
+            const emprestimo = {
+                id: idCounter.emprestimo++,
+                usuarioId: usuarioId,
+                usuarioNome: usuario.nome,
+                acervoId: acervoId,
+                acervoTitulo: acervo.titulo,
+                acervoCategoria: acervo.categoria,
+                dataInicio: document.getElementById('emprestimoDataInicio').value,
+                dataFim: document.getElementById('emprestimoDataFim').value,
+                status: 'Ativo',
+                multa: 0
+            };
+
+            dados.emprestimos.push(emprestimo);
+            
+            // Atualizar usuário
+            usuario.emprestimosAtivos++;
+            
+            // Atualizar acervo
+            acervo.exemplaresDisponiveis--;
+            acervo.totalEmprestimos++;
+            if (acervo.exemplaresDisponiveis === 0) {
+                acervo.status = 'Emprestado';
+            }
+
+            mostrarAlerta('emprestimoSuccess');
+            limparEmprestimoForm();
+            renderizarEmprestimosAtivos();
+            
+            setTimeout(() => ocultarAlerta('emprestimoSuccess'), 3000);
+        });
+
+        function renderizarEmprestimosAtivos() {
+            const container = document.getElementById('emprestimosAtivos');
+            const emprestimosAtivos = dados.emprestimos.filter(e => e.status === 'Ativo');
+
+            if (emprestimosAtivos.length === 0) {
+                container.innerHTML = '<p class="empty-state">Nenhum empréstimo ativo.</p>';
+                return;
+            }
+
+            container.innerHTML = emprestimosAtivos.map(e => {
+                const hoje = new Date();
+                const dataFim = new Date(e.dataFim);
+                const diasRestantes = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
+                const statusClass = diasRestantes < 0 ? 'danger' : diasRestantes <= 3 ? 'warning' : 'success';
+
+                return `
+                    <div class="loan-card">
+                        <div class="loan-header">
+                            <h3 style="margin: 0; color: var(--primary);">${e.acervoTitulo}</h3>
+                            <span class="badge badge-${statusClass}">
+                                ${diasRestantes < 0 ? `${Math.abs(diasRestantes)} dias em atraso` : 
+                                  diasRestantes === 0 ? 'Vence hoje' : 
+                                  `${diasRestantes} dias restantes`}
+                            </span>
+                        </div>
+                        <div class="loan-info">
+                            <div class="info-item">
+                                <span class="info-label">Usuário</span>
+                                <span class="info-value">${e.usuarioNome}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Categoria</span>
+                                <span class="info-value">${e.acervoCategoria}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Data de Empréstimo</span>
+                                <span class="info-value">${new Date(e.dataInicio).toLocaleDateString('pt-BR')}</span>
+                            </div>
+                            <div class="info-item">
+                                <span class="info-label">Devolução Prevista</span>
+                                <span class="info-value">${new Date(e.dataFim).toLocaleDateString('pt-BR')}</span>
+                            </div>
+                        </div>
+                        <div class="btn-group" style="margin-top: 16px;">
+                            <button class="btn btn-success btn-sm" onclick="realizarDevolucao(${e.id})">
+                                ✅ Registrar Devolução
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function realizarDevolucao(emprestimoId) {
+            const emprestimo = dados.emprestimos.find(e => e.id === emprestimoId);
+            if (!emprestimo) return;
+
+            const hoje = new Date();
+            const dataFim = new Date(emprestimo.dataFim);
+            const diasAtraso = Math.max(0, Math.ceil((hoje - dataFim) / (1000 * 60 * 60 * 24)));
+            const multaDiaria = 2.00;
+            const multa = diasAtraso * multaDiaria;
+
+            // Atualizar empréstimo
+            emprestimo.status = 'Devolvido';
+            emprestimo.dataDevolucao = hoje.toISOString();
+            emprestimo.multa = multa;
+
+            // Adicionar ao histórico
+            dados.devolucoes.push({...emprestimo});
+
+            // Atualizar usuário
+            const usuario = dados.usuarios.find(u => u.id === emprestimo.usuarioId);
+            if (usuario) {
+                usuario.emprestimosAtivos--;
+            }
+
+            // Atualizar acervo
+            const acervo = dados.acervos.find(a => a.id === emprestimo.acervoId);
+            if (acervo) {
+                acervo.exemplaresDisponiveis++;
+                if (acervo.exemplaresDisponiveis > 0) {
+                    acervo.status = 'Disponível';
+                }
+            }
+
+            // Verificar reservas
+            verificarReservas(emprestimo.acervoId);
+
+            renderizarEmprestimosAtivos();
+            renderizarDevolucoes();
+            
+            alert(`Devolução registrada com sucesso!${multa > 0 ? `\nMulta: R$ ${multa.toFixed(2)}` : ''}`);
+        }
+
+        function renderizarDevolucoes() {
+            const tbody = document.getElementById('devolucoesTable');
+            
+            if (dados.devolucoes.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" class="empty-state">Nenhuma devolução registrada.</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = dados.devolucoes.slice(-10).reverse().map(d => `
+                <tr>
+                    <td>${d.usuarioNome}</td>
+                    <td>${d.acervoTitulo}</td>
+                    <td>${new Date(d.dataInicio).toLocaleDateString('pt-BR')}</td>
+                    <td>${new Date(d.dataDevolucao).toLocaleDateString('pt-BR')}</td>
+                    <td><span class="badge badge-${d.multa > 0 ? 'danger' : 'success'}">
+                        ${d.multa > 0 ? 'Com atraso' : 'No prazo'}
+                    </span></td>
+                    <td>R$ ${d.multa.toFixed(2)}</td>
+                </tr>
+            `).join('');
+        }
+
+        function limparEmprestimoForm() {
+            document.getElementById('emprestimoForm').reset();
+            limparErros('emprestimo');
+        }
+
+        // ========================================
+        // MÓDULO 4: RESERVAS
+        // ========================================
+        
+        function atualizarSelectAcervosIndisponiveis() {
+            const select = document.getElementById('reservaAcervo');
+            if (!select) return;
+            
+            const acervosIndisponiveis = dados.acervos.filter(a => 
+                a.exemplaresDisponiveis === 0 && a.status !== 'Em Manutenção'
+            );
+            
+            select.innerHTML = '<option value="">Selecione o acervo</option>' +
+                acervosIndisponiveis.map(a => 
+                    `<option value="${a.id}">${a.titulo} - ${a.categoria} (Indisponível)</option>`
+                ).join('');
+        }
+
+        function validarReservaForm() {
+            limparErros('reserva');
+            let valido = true;
+
+            const usuarioId = document.getElementById('reservaUsuario').value;
+            if (usuarioId === '') {
+                mostrarErro('reservaUsuario', 'reservaUsuarioError');
+                valido = false;
+            }
+
+            const acervoId = document.getElementById('reservaAcervo').value;
+            if (acervoId === '') {
+                mostrarErro('reservaAcervo', 'reservaAcervoError');
+                valido = false;
+            }
+
+            return valido;
+        }
+
+        document.getElementById('reservaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validarReservaForm()) return;
+
+            const usuarioId = parseInt(document.getElementById('reservaUsuario').value);
+            const acervoId = parseInt(document.getElementById('reservaAcervo').value);
+            
+            const usuario = dados.usuarios.find(u => u.id === usuarioId);
+            const acervo = dados.acervos.find(a => a.id === acervoId);
+
+            const reserva = {
+                id: idCounter.reserva++,
+                usuarioId: usuarioId,
+                usuarioNome: usuario.nome,
+                acervoId: acervoId,
+                acervoTitulo: acervo.titulo,
+                dataReserva: new Date().toISOString(),
+                status: 'Aguardando',
+                notificado: false
+            };
+
+            dados.reservas.push(reserva);
+
+            mostrarAlerta('reservaSuccess');
+            limparReservaForm();
+            renderizarReservasAtivas();
+            
+            setTimeout(() => ocultarAlerta('reservaSuccess'), 3000);
+        });
+
+        function renderizarReservasAtivas() {
+            const container = document.getElementById('reservasAtivas');
+            const reservasAtivas = dados.reservas.filter(r => r.status !== 'Cancelada' && r.status !== 'Concluída');
+
+            if (reservasAtivas.length === 0) {
+                container.innerHTML = '<p class="empty-state">Nenhuma reserva ativa.</p>';
+                return;
+            }
+
+            container.innerHTML = reservasAtivas.map(r => `
+                <div class="loan-card">
+                    <div class="loan-header">
+                        <h3 style="margin: 0; color: var(--primary);">${r.acervoTitulo}</h3>
+                        <span class="badge badge-${r.status === 'Disponível' ? 'success' : 'warning'}">
+                            ${r.status}
+                        </span>
+                    </div>
+                    <div class="loan-info">
+                        <div class="info-item">
+                            <span class="info-label">Usuário</span>
+                            <span class="info-value">${r.usuarioNome}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Data da Reserva</span>
+                            <span class="info-value">${new Date(r.dataReserva).toLocaleDateString('pt-BR')}</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Status</span>
+                            <span class="info-value">${r.status === 'Disponível' ? 'Pronto para retirada' : 'Aguardando devolução'}</span>
+                        </div>
+                    </div>
+                    <div class="btn-group" style="margin-top: 16px;">
+                        ${r.status === 'Disponível' ? `
+                            <button class="btn btn-success btn-sm" onclick="concluirReserva(${r.id})">
+                                ✅ Confirmar Retirada
+                            </button>
+                        ` : ''}
+                        <button class="btn btn-danger btn-sm" onclick="cancelarReserva(${r.id})">
+                            ❌ Cancelar Reserva
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function verificarReservas(acervoId) {
+            const reservasPendentes = dados.reservas.filter(r => 
+                r.acervoId === acervoId && r.status === 'Aguardando'
+            );
+
+            if (reservasPendentes.length > 0) {
+                const primeiraReserva = reservasPendentes[0];
+                primeiraReserva.status = 'Disponível';
+                primeiraReserva.dataNotificacao = new Date().toISOString();
+                
+                // Criar notificação
+                dados.notificacoes.push({
+                    tipo: 'reserva_disponivel',
+                    titulo: 'Reserva Disponível',
+                    mensagem: `O item "${primeiraReserva.acervoTitulo}" está disponível para retirada. Você tem 24h para retirar.`,
+                    usuarioId: primeiraReserva.usuarioId,
+                    usuarioNome: primeiraReserva.usuarioNome,
+                    data: new Date().toISOString(),
+                    lida: false
+                });
+                
+                renderizarReservasAtivas();
+            }
+        }
+
+        function concluirReserva(reservaId) {
+            const reserva = dados.reservas.find(r => r.id === reservaId);
+            if (!reserva) return;
+
+            reserva.status = 'Concluída';
+            renderizarReservasAtivas();
+            
+            alert('Reserva concluída! Prossiga com o empréstimo do item.');
+        }
+
+        function cancelarReserva(reservaId) {
+            if (!confirm('Deseja realmente cancelar esta reserva?')) return;
+
+            const reserva = dados.reservas.find(r => r.id === reservaId);
+            if (!reserva) return;
+
+            reserva.status = 'Cancelada';
+            renderizarReservasAtivas();
+        }
+
+        function limparReservaForm() {
+            document.getElementById('reservaForm').reset();
+            limparErros('reserva');
+        }
+
+        // ========================================
+        // MÓDULO 5: RELATÓRIOS E NOTIFICAÇÕES
+        // ========================================
+        
+        function atualizarEstatisticas() {
+            document.getElementById('statUsuarios').textContent = dados.usuarios.length;
+            document.getElementById('statAcervos').textContent = dados.acervos.length;
+            
+            const emprestimosAtivos = dados.emprestimos.filter(e => e.status === 'Ativo').length;
+            document.getElementById('statEmprestimosAtivos').textContent = emprestimosAtivos;
+            
+            const reservasAtivas = dados.reservas.filter(r => r.status === 'Aguardando' || r.status === 'Disponível').length;
+            document.getElementById('statReservas').textContent = reservasAtivas;
+            
+            const itensDisponiveis = dados.acervos.reduce((sum, a) => sum + a.exemplaresDisponiveis, 0);
+            document.getElementById('statDisponiveis').textContent = itensDisponiveis;
+            
+            const hoje = new Date();
+            const emprestimosAtrasados = dados.emprestimos.filter(e => {
+                if (e.status !== 'Ativo') return false;
+                const dataFim = new Date(e.dataFim);
+                return hoje > dataFim;
+            }).length;
+            document.getElementById('statAtrasados').textContent = emprestimosAtrasados;
+        }
+
+        function gerarNotificacoes() {
+            const container = document.getElementById('notificacoes');
+            const hoje = new Date();
+
+            // Gerar notificações de empréstimos próximos do vencimento
+            dados.emprestimos.filter(e => e.status === 'Ativo').forEach(e => {
+                const dataFim = new Date(e.dataFim);
+                const diasRestantes = Math.ceil((dataFim - hoje) / (1000 * 60 * 60 * 24));
+                
+                if (diasRestantes <= 2 && diasRestantes >= 0) {
+                    const existe = dados.notificacoes.some(n => 
+                        n.tipo === 'lembrete_devolucao' && 
+                        n.emprestimoId === e.id
+                    );
+                    
+                    if (!existe) {
+                        dados.notificacoes.push({
+                            tipo: 'lembrete_devolucao',
+                            titulo: 'Lembrete de Devolução',
+                            mensagem: `O empréstimo de "${e.acervoTitulo}" vence em ${diasRestantes} dia(s).`,
+                            usuarioId: e.usuarioId,
+                            usuarioNome: e.usuarioNome,
+                            emprestimoId: e.id,
+                            data: new Date().toISOString(),
+                            lida: false,
+                            prioridade: 'warning'
+                        });
+                    }
+                } else if (diasRestantes < 0) {
+                    const existe = dados.notificacoes.some(n => 
+                        n.tipo === 'emprestimo_atrasado' && 
+                        n.emprestimoId === e.id
+                    );
+                    
+                    if (!existe) {
+                        dados.notificacoes.push({
+                            tipo: 'emprestimo_atrasado',
+                            titulo: 'Empréstimo Atrasado',
+                            mensagem: `O empréstimo de "${e.acervoTitulo}" está atrasado há ${Math.abs(diasRestantes)} dia(s). Multa acumulada: R$ ${(Math.abs(diasRestantes) * 2).toFixed(2)}`,
+                            usuarioId: e.usuarioId,
+                            usuarioNome: e.usuarioNome,
+                            emprestimoId: e.id,
+                            data: new Date().toISOString(),
+                            lida: false,
+                            prioridade: 'danger'
+                        });
+                    }
+                }
+            });
+
+            // Renderizar notificações
+            if (dados.notificacoes.length === 0) {
+                container.innerHTML = '<p class="empty-state">Nenhuma notificação no momento.</p>';
+                return;
+            }
+
+            const notificacoesOrdenadas = dados.notificacoes.slice().reverse();
+            
+            container.innerHTML = notificacoesOrdenadas.map(n => `
+                <div class="notification-item ${!n.lida ? 'unread' : ''} ${n.prioridade || ''}">
+                    <div class="notification-header">
+                        <span class="notification-title">
+                            ${n.prioridade === 'danger' ? '⚠️' : n.prioridade === 'warning' ? '🔔' : '📧'} 
+                            ${n.titulo}
+                        </span>
+                        <span class="notification-time">${new Date(n.data).toLocaleDateString('pt-BR')}</span>
+                    </div>
+                    <p style="margin: 0; color: var(--text-dark);">${n.mensagem}</p>
+                    ${n.usuarioNome ? `<small style="color: var(--text-muted); margin-top: 8px; display: block;">Destinatário: ${n.usuarioNome}</small>` : ''}
+                </div>
+            `).join('');
+        }
+
+        function gerarRelatorios() {
+            // Relatório de acervos mais emprestados
+            const acervosOrdenados = dados.acervos
+                .filter(a => a.totalEmprestimos > 0)
+                .sort((a, b) => b.totalEmprestimos - a.totalEmprestimos)
+                .slice(0, 10);
+
+            const tbodyMaisEmprestados = document.getElementById('relatorioMaisEmprestados');
+            
+            if (acervosOrdenados.length === 0) {
+                tbodyMaisEmprestados.innerHTML = '<tr><td colspan="4" class="empty-state">Nenhum empréstimo registrado ainda.</td></tr>';
+            } else {
+                tbodyMaisEmprestados.innerHTML = acervosOrdenados.map((a, index) => `
+                    <tr>
+                        <td><strong>${index + 1}º</strong></td>
+                        <td>${a.titulo}</td>
+                        <td><span class="badge badge-info">${a.categoria}</span></td>
+                        <td><strong>${a.totalEmprestimos}</strong></td>
+                    </tr>
+                `).join('');
+            }
+
+            // Relatório de usuários em atraso
+            const hoje = new Date();
+            const emprestimosAtrasados = dados.emprestimos.filter(e => {
+                if (e.status !== 'Ativo') return false;
+                const dataFim = new Date(e.dataFim);
+                return hoje > dataFim;
+            });
+
+            const tbodyAtrasados = document.getElementById('relatorioAtrasados');
+            
+            if (emprestimosAtrasados.length === 0) {
+                tbodyAtrasados.innerHTML = '<tr><td colspan="5" class="empty-state">Nenhum empréstimo em atraso.</td></tr>';
+            } else {
+                tbodyAtrasados.innerHTML = emprestimosAtrasados.map(e => {
+                    const dataFim = new Date(e.dataFim);
+                    const diasAtraso = Math.ceil((hoje - dataFim) / (1000 * 60 * 60 * 24));
+                    const multa = diasAtraso * 2.00;
+                    
+                    return `
+                        <tr>
+                            <td>${e.usuarioNome}</td>
+                            <td>${e.acervoTitulo}</td>
+                            <td>${new Date(e.dataFim).toLocaleDateString('pt-BR')}</td>
+                            <td><span class="badge badge-danger">${diasAtraso} dias</span></td>
+                            <td><strong>R$ ${multa.toFixed(2)}</strong></td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+        }
+
+        // ========================================
+        // FUNÇÕES AUXILIARES
+        // ========================================
+        
+        function mostrarErro(campoId, erroId) {
+            const campo = document.getElementById(campoId);
+            const erro = document.getElementById(erroId);
+            
+            if (campo) campo.classList.add('input-error');
+            if (erro) erro.classList.add('show');
+        }
+
+        function limparErros(prefixo) {
+            const form = document.querySelector(`#${prefixo}Form`);
+            if (!form) return;
+
+            form.querySelectorAll('input, select, textarea').forEach(el => {
+                el.classList.remove('input-error');
+            });
+
+            form.querySelectorAll('.error-message').forEach(el => {
+                el.classList.remove('show');
+            });
+        }
+
+        function mostrarAlerta(alertaId) {
+            const alerta = document.getElementById(alertaId);
+            if (alerta) {
+                alerta.classList.add('show');
+            }
+        }
+
+        function ocultarAlerta(alertaId) {
+            const alerta = document.getElementById(alertaId);
+            if (alerta) {
+                alerta.classList.remove('show');
+            }
+        }
+
+        // ========================================
+        // DADOS DE EXEMPLO (Opcional)
+        // ========================================
+        
+        function carregarDadosExemplo() {
+            // Usuários de exemplo
+            dados.usuarios.push({
+                id: idCounter.usuario++,
+                nome: 'Maria Silva Santos',
+                cpf: '123.456.789-00',
+                email: 'maria.silva@email.com',
+                telefone: '(31) 98765-4321',
+                tipo: 'Aluno',
+                matricula: '2024001',
+                status: 'Ativo',
+                emprestimosAtivos: 0,
+                limiteEmprestimos: 5,
+                dataCadastro: new Date().toISOString()
+            });
+
+            dados.usuarios.push({
+                id: idCounter.usuario++,
+                nome: 'João Pedro Oliveira',
+                cpf: '987.654.321-00',
+                email: 'joao.pedro@email.com',
+                telefone: '(31) 91234-5678',
+                tipo: 'Professor',
+                matricula: 'PROF001',
+                status: 'Ativo',
+                emprestimosAtivos: 0,
+                limiteEmprestimos: 5,
+                dataCadastro: new Date().toISOString()
+            });
+
+            // Acervos de exemplo
+            dados.acervos.push({
+                id: idCounter.acervo++,
+                titulo: 'Inteligência Artificial: Uma Abordagem Moderna',
+                autor: 'Stuart Russell, Peter Norvig',
+                categoria: 'Livro',
+                tipo: 'Livro Físico',
+                exemplares: 3,
+                exemplaresDisponiveis: 3,
+                status: 'Disponível',
+                descricao: 'Livro referência em IA com abordagem completa e moderna.',
+                totalEmprestimos: 0,
+                dataCadastro: new Date().toISOString()
+            });
+
+            dados.acervos.push({
+                id: idCounter.acervo++,
+                titulo: 'Tablet Samsung Galaxy Tab',
+                autor: 'Samsung',
+                categoria: 'Eletrônico',
+                tipo: 'Tablet',
+                exemplares: 5,
+                exemplaresDisponiveis: 5,
+                status: 'Disponível',
+                descricao: 'Tablet para estudos e pesquisas.',
+                totalEmprestimos: 0,
+                dataCadastro: new Date().toISOString()
+            });
+
+            dados.acervos.push({
+                id: idCounter.acervo++,
+                titulo: 'Clean Code',
+                autor: 'Robert C. Martin',
+                categoria: 'Livro',
+                tipo: 'Livro Físico',
+                exemplares: 2,
+                exemplaresDisponiveis: 2,
+                status: 'Disponível',
+                descricao: 'Guia completo sobre código limpo e boas práticas.',
+                totalEmprestimos: 0,
+                dataCadastro: new Date().toISOString()
+            });
+
+            renderizarUsuarios();
+            renderizarAcervos();
+        }
+
+        // Carregar dados de exemplo ao iniciar
+        window.addEventListener('DOMContentLoaded', () => {
+            carregarDadosExemplo();
+            
+            // Definir data de hoje como padrão
+            const hoje = new Date().toISOString().split('T')[0];
+            const dataInput = document.getElementById('emprestimoDataInicio');
+            if (dataInput) {
+                dataInput.value = hoje;
+                dataInput.min = hoje;
+            }
+        });
+    </script>
+</body>
+</html>

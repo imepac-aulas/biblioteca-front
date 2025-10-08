@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca+ | Gestão de Acervos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>📚 Biblioteca+ Soluções</h1>
+        <p>Sistema Completo de Gestão Bibliotecária</p>
+    </header>
+
+    <nav>
+        <button class="nav-btn" onclick="showModule('usuarios')">
+            👥 Usuários
+        </button>
+        <button class="nav-btn active" onclick="showModule('acervos')">
+            📖 Acervos
+        </button>
+        <button class="nav-btn" onclick="showModule('emprestimos')">
+            📤 Empréstimos
+        </button>
+        <button class="nav-btn" onclick="showModule('reservas')">
+            🔖 Reservas
+        </button>
+        <button class="nav-btn" onclick="showModule('relatorios')">
+            📊 Relatórios
+        </button>
+    </nav>
+
+    <main>
+        <!-- MÓDULO 1: CADASTRO DE USUÁRIOS -->
+        <div id="usuarios" class="module">
+        </div>
+
+        <!-- MÓDULO 2: GESTÃO DE ACERVOS -->
+        <div id="acervos" class="module active">
+            <div class="container">
+                <h2>📖 Cadastro de Acervos</h2>
+                <div id="acervoSuccess" class="alert alert-success">✅ Acervo cadastrado com sucesso!</div>
+                <form id="acervoForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Título<span class="required">*</span></label>
+                            <input type="text" id="acervoTitulo" placeholder="Ex: Inteligência Artificial">
+                            <div class="error-message" id="acervoTituloError">O título é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Autor<span class="required">*</span></label>
+                            <input type="text" id="acervoAutor" placeholder="Ex: Stuart Russell">
+                            <div class="error-message" id="acervoAutorError">O autor é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria<span class="required">*</span></label>
+                            <select id="acervoCategoria">
+                                <option value="">Selecione</option>
+                                <option value="Livro">📚 Livro</option>
+                                <option value="Revista">📰 Revista</option>
+                                <option value="Eletrônico">💻 Eletrônico</option>
+                            </select>
+                            <div class="error-message" id="acervoCategoriaError">Selecione a categoria.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Material<span class="required">*</span></label>
+                            <select id="acervoTipo">
+                                <option value="">Selecione</option>
+                                <option value="Livro Físico">Livro Físico</option>
+                                <option value="Revista">Revista</option>
+                                <option value="Tablet">Tablet</option>
+                                <option value="Notebook">Notebook</option>
+                                <option value="E-reader">E-reader</option>
+                            </select>
+                            <div class="error-message" id="acervoTipoError">Selecione o tipo.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Exemplares<span class="required">*</span></label>
+                            <input type="number" id="acervoExemplares" min="1" value="1">
+                            <div class="error-message" id="acervoExemplaresError">Mínimo 1 exemplar.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Status Inicial<span class="required">*</span></label>
+                            <select id="acervoStatus">
+                                <option value="Disponível">✅ Disponível</option>
+                                <option value="Em Manutenção">🔧 Em Manutenção</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label>Descrição<span class="optional">(opcional)</span></label>
+                            <textarea id="acervoDescricao" placeholder="Informações adicionais..."></textarea>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparAcervoForm()">🔄 Limpar</button>
+                        <button type="submit" class="btn btn-primary">💾 Cadastrar Acervo</button>
+                    </div>
+                </form>
+            </div>
+            <div class="container">
+                <h2>📚 Acervos Cadastrados</h2>
+                <div class="search-box">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>🔍 Título</label>
+                            <input type="text" id="searchAcervoTitulo" placeholder="Buscar por título...">
+                        </div>
+                        <div class="form-group">
+                            <label>Autor</label>
+                            <input type="text" id="searchAcervoAutor" placeholder="Buscar por autor...">
+                        </div>
+                        <div class="form-group">
+                            <label>Categoria</label>
+                            <select id="searchAcervoCategoria">
+                                <option value="">Todas</option>
+                                <option value="Livro">Livro</option>
+                                <option value="Revista">Revista</option>
+                                <option value="Eletrônico">Eletrônico</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="searchAcervoStatus">
+                                <option value="">Todos</option>
+                                <option value="Disponível">Disponível</option>
+                                <option value="Emprestado">Emprestado</option>
+                                <option value="Reservado">Reservado</option>
+                                <option value="Em Manutenção">Em Manutenção</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Categoria</th>
+                                <th>Exemplares</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="acervosTable">
+                            <tr><td colspan="6" class="empty-state">Nenhum acervo cadastrado.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 3: EMPRÉSTIMOS E DEVOLUÇÕES -->
+        <div id="emprestimos" class="module">
+        </div>
+
+        <!-- MÓDULO 4: RESERVAS -->
+        <div id="reservas" class="module">
+        </div>
+
+        <!-- MÓDULO 5: NOTIFICAÇÕES E RELATÓRIOS -->
+        <div id="relatorios" class="module">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
