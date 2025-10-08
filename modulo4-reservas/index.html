@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca+ | Reservas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>📚 Biblioteca+ Soluções</h1>
+        <p>Sistema Completo de Gestão Bibliotecária</p>
+    </header>
+
+    <nav>
+        <button class="nav-btn" onclick="showModule('usuarios')">
+            👥 Usuários
+        </button>
+        <button class="nav-btn" onclick="showModule('acervos')">
+            📖 Acervos
+        </button>
+        <button class="nav-btn" onclick="showModule('emprestimos')">
+            📤 Empréstimos
+        </button>
+        <button class="nav-btn active" onclick="showModule('reservas')">
+            🔖 Reservas
+        </button>
+        <button class="nav-btn" onclick="showModule('relatorios')">
+            📊 Relatórios
+        </button>
+    </nav>
+
+    <main>
+        <!-- MÓDULO 1: CADASTRO DE USUÁRIOS -->
+        <div id="usuarios" class="module">
+        </div>
+
+        <!-- MÓDULO 2: GESTÃO DE ACERVOS -->
+        <div id="acervos" class="module">
+        </div>
+
+        <!-- MÓDULO 3: EMPRÉSTIMOS E DEVOLUÇÕES -->
+        <div id="emprestimos" class="module">
+        </div>
+
+        <!-- MÓDULO 4: RESERVAS -->
+        <div id="reservas" class="module active">
+            <div class="container">
+                <h2>🔖 Nova Reserva</h2>
+                 <div id="reservaSuccess" class="alert alert-success">✅ Reserva realizada com sucesso!</div>
+                <form id="reservaForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Usuário<span class="required">*</span></label>
+                            <select id="reservaUsuario">
+                                <option value="">Selecione o usuário</option>
+                            </select>
+                             <div class="error-message" id="reservaUsuarioError">Selecione um usuário.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Acervo (Emprestado)<span class="required">*</span></label>
+                            <select id="reservaAcervo">
+                                <option value="">Selecione o acervo</option>
+                            </select>
+                             <div class="error-message" id="reservaAcervoError">Selecione um acervo.</div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" class="btn btn-primary">Registrar Reserva</button>
+                    </div>
+                </form>
+            </div>
+             <div class="container">
+                <h2>📋 Reservas Ativas</h2>
+                 <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Acervo</th>
+                                <th>Usuário</th>
+                                <th>Data da Reserva</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservasTable">
+                           <tr><td colspan="5" class="empty-state">Nenhuma reserva encontrada.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 5: NOTIFICAÇÕES E RELATÓRIOS -->
+        <div id="relatorios" class="module">
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
