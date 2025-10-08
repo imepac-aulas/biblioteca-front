@@ -1,0 +1,83 @@
+
+:root{
+  --primary:#003366;
+  --primary-2:#0059b3;
+  --accent:#00b359;
+  --muted:#f5f7fb;
+}
+*{box-sizing:border-box}
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  background-color: var(--muted);
+  color: #222;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* HOME / SOBRE */
+.header-home {
+  text-align: center;
+  background: linear-gradient(135deg, var(--primary), var(--primary-2));
+  color: white;
+  padding: 48px 20px;
+}
+.header-home h1{font-size:2.1rem; margin:0}
+.header-home p{font-size:1rem; margin:8px 0 16px}
+.botoes-home{margin-top:12px}
+.btn-login, .btn-secundario {
+  display:inline-block;
+  padding:10px 18px;
+  border-radius:6px;
+  font-weight:700;
+  text-decoration:none;
+}
+.btn-login{background:var(--accent); color:#fff; margin-right:8px}
+.btn-login:hover{opacity:.95}
+.btn-secundario{background:#0066cc;color:#fff}
+.btn-secundario:hover{opacity:.95}
+
+.conteudo{max-width:980px;margin:28px auto;padding:0 18px}
+.conteudo section{margin-bottom:28px}
+.conteudo h2{color:var(--primary)}
+
+/* FOOTER */
+footer{background:var(--primary);color:#fff;text-align:center;padding:12px;margin-top:30px}
+
+/* LOGIN */
+.container{display:flex;align-items:center;justify-content:center;height:80vh;padding:16px}
+form{background:#fff;padding:18px;border-radius:8px;box-shadow:0 4px 18px rgba(0,0,0,0.08);width:360px}
+fieldset{border:1px solid #ddd;padding:12px;border-radius:8px}
+legend{font-weight:700;color:var(--primary)}
+label{display:block;margin-top:10px;font-size:.95rem}
+input,select,textarea{width:100%;padding:9px;border-radius:6px;border:1px solid #ccc;margin-top:6px;font-size:0.95rem}
+button{background:var(--primary);color:#fff;border:none;padding:10px;border-radius:6px;margin-top:12px;cursor:pointer;font-weight:700}
+button:hover{background:var(--primary-2)}
+.erro{color:#d32f2f;margin-top:8px}
+.sucesso{color:#2e7d32;margin-top:8px}
+.voltar{margin-top:12px;text-align:center}
+
+/* DASHBOARD */
+.dash-header{background:var(--primary);color:#fff;padding:12px}
+.dash-header h1{margin:0;padding:6px 0}
+.dash-nav{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;padding:8px}
+.dash-nav button{background:#0b63d4;border:none;color:#fff;padding:8px 12px;border-radius:6px;cursor:pointer}
+.dash-nav button:hover{background:#084fa6}
+.dashboard{max-width:1200px;margin:18px auto;padding:0 14px}
+.sec{background:#fff;padding:14px;border-radius:8px;box-shadow:0 6px 20px rgba(0,0,0,0.05);margin-bottom:16px}
+.hidden{display:none}
+.table{width:100%;border-collapse:collapse;margin-top:12px}
+.table th,.table td{border:1px solid #eee;padding:8px;text-align:left;font-size:.9rem}
+.table thead th{background:#f4f7fb}
+.rel-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:12px 0}
+.card{background:#f9fbff;padding:12px;border-radius:8px;text-align:center}
+.card h4{margin:0;color:var(--primary)}
+.rel-grid p{font-size:1.4rem;font-weight:700}
+
+/* responsivo */
+@media (max-width:720px){
+  .dash-nav{flex-direction:column;align-items:center}
+  form{width:100%}
+}
+
+/* extras */
+.small-btn{padding:6px 8px;border-radius:6px;border:none;cursor:pointer}
