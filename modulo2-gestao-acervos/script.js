@@ -10,34 +10,6 @@ let db = {
 // LÓGICA GERAL E DE NAVEGAÇÃO
 // ============================================
 
-function showModule(moduleId) {
-    // Esconde todos os módulos
-    document.querySelectorAll('.module').forEach(module => {
-        module.classList.remove('active');
-    });
-
-    // Mostra o módulo selecionado
-    const activeModule = document.getElementById(moduleId);
-    if (activeModule) {
-        activeModule.classList.add('active');
-    }
-
-    // Atualiza o botão ativo na navegação
-    document.querySelectorAll('.nav-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.getAttribute('onclick').includes(`'${moduleId}'`)) {
-            btn.classList.add('active');
-        }
-    });
-
-    // Atualiza dados dinâmicos ao trocar de módulo
-    if (moduleId === 'emprestimos') {
-        popularSelectsEmprestimo();
-    }
-    if (moduleId === 'reservas') {
-        popularSelectsReserva();
-    }
-}
 
 function showAlert(alertId, duration = 3000) {
     const alert = document.getElementById(alertId);
@@ -223,7 +195,7 @@ function renderAcervosTable() {
                 <td>${item.exemplares}</td>
                 <td><span class="badge ${statusClass}">${item.status}</span></td>
                 <td>
-                    <button class="btn btn-sm btn-primary" ${item.status !== 'Disponível' ? 'disabled' : ''} onclick="showModule('emprestimos')">Emprestar</button>
+                <a href="../modulo3-emprestimos-devolucoes/index.html" class="btn btn-sm btn-primary ${item.status !== 'Disponível' ? 'disabled-link' : ''}">Emprestar</a>
                 </td>
             </tr>
         `;
@@ -462,9 +434,8 @@ function renderReservas() {
 function confirmarRetirada(reservaId) {
     const reserva = db.reservas.find(r => r.id === reservaId);
     reserva.status = 'Finalizada';
-    // Aqui, idealmente, se criaria um novo empréstimo
-    showModule('emprestimos');
-    renderReservas();
+    // Redireciona o usuário para a página de empréstimos
+    window.location.href = '../modulo3-emprestimos-devolucoes/index.html';
 }
 function cancelarReserva(reservaId) {
     const reserva = db.reservas.find(r => r.id === reservaId);

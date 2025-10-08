@@ -100,26 +100,6 @@ main {
     padding: 0 20px;
 }
 
-.module {
-    display: none;
-    animation: fadeIn 0.4s ease;
-}
-
-.module.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
 /* ===== CONTAINERS ===== */
 .container {
     background: var(--white);
@@ -264,6 +244,14 @@ textarea {
     display: inline-flex;
     align-items: center;
     gap: 8px;
+}
+
+/* Desabilita links com aparência de botão */
+.disabled-link {
+    background: var(--text-muted);
+    opacity: 0.6;
+    pointer-events: none; 
+    cursor: not-allowed;
 }
 
 .btn-primary {
