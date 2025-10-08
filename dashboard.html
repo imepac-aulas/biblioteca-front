@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Dashboard | Biblioteca+</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="dash-header">
+    <h1>Biblioteca+ — Painel</h1>
+    <nav class="dash-nav">
+      <button onclick="showSection('usuarios')">Usuários</button>
+      <button onclick="showSection('acervo')">Acervo</button>
+      <button onclick="showSection('emprestimos')">Empréstimos</button>
+      <button onclick="showSection('reservas')">Reservas</button>
+      <button onclick="showSection('relatorios')">Relatórios</button>
+      <button onclick="window.location.href='sobre.html'">Documentação</button>
+      <button onclick="logout()">Sair</button>
+    </nav>
+  </header>
+
+  <main class="dashboard">
+    <!-- USUÁRIOS -->
+    <section id="usuarios" class="sec">
+      <form id="formUsuario" novalidate>
+        <fieldset><legend>Cadastro de Usuário</legend>
+
+          <label for="u_nome">Nome:</label>
+          <input id="u_nome" required>
+
+          <label for="u_tipo">Tipo:</label>
+          <select id="u_tipo" required>
+            <option value="">Selecione</option>
+            <option>Aluno</option>
+            <option>Professor</option>
+            <option>Colaborador</option>
+          </select>
+
+          <label for="u_email">E-mail:</label>
+          <input id="u_email" type="email" required>
+
+          <button type="submit">Cadastrar Usuário</button>
+          <p id="msgUsuario" class="sucesso"></p>
+        </fieldset>
+      </form>
+
+      <h3>Lista de Usuários</h3>
+      <table id="tabelaUsuarios" class="table">
+        <thead><tr><th>Nome</th><th>Tipo</th><th>E-mail</th><th>Emprestados</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- ACERVO -->
+    <section id="acervo" class="sec hidden">
+      <form id="formAcervo" novalidate>
+        <fieldset><legend>Cadastro de Acervo</legend>
+
+          <label for="a_titulo">Título:</label>
+          <input id="a_titulo" required>
+
+          <label for="a_autor">Autor:</label>
+          <input id="a_autor" required>
+
+          <label for="a_tipo">Tipo de material:</label>
+          <select id="a_tipo" required>
+            <option value="">Selecione</option>
+            <option>Livro</option>
+            <option>Revista</option>
+            <option>Tablet</option>
+            <option>Notebook</option>
+            <option>E-reader</option>
+          </select>
+
+          <label for="a_exemplares">Quantidade de exemplares:</label>
+          <input id="a_exemplares" type="number" min="1" value="1" required>
+
+          <button type="submit">Cadastrar Item</button>
+          <p id="msgAcervo" class="sucesso"></p>
+        </fieldset>
+      </form>
+
+      <h3>Lista do Acervo</h3>
+      <table id="tabelaAcervo" class="table">
+        <thead><tr><th>Título</th><th>Autor</th><th>Tipo</th><th>Disponíveis</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- EMPRÉSTIMOS -->
+    <section id="emprestimos" class="sec hidden">
+      <form id="formEmprestimo" novalidate>
+        <fieldset><legend>Registrar Empréstimo</legend>
+
+          <label for="e_usuario">Usuário (e-mail):</label>
+          <input id="e_usuario" type="email" required>
+
+          <label for="e_item">Título do Item:</label>
+          <input id="e_item" required>
+
+          <label for="e_retirada">Data retirada:</label>
+          <input id="e_retirada" type="date" required>
+
+          <button type="submit">Registrar Empréstimo</button>
+          <p id="msgEmprestimo" class="sucesso"></p>
+        </fieldset>
+      </form>
+
+      <h3>Empréstimos Ativos</h3>
+      <table id="tabelaEmprestimos" class="table">
+        <thead><tr><th>Usuário</th><th>Item</th><th>Retirada</th><th>Prev. Devolução</th><th>Multa (R$)</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- RESERVAS -->
+    <section id="reservas" class="sec hidden">
+      <form id="formReserva" novalidate>
+        <fieldset><legend>Registrar Reserva</legend>
+
+          <label for="r_usuario">Usuário (e-mail):</label>
+          <input id="r_usuario" type="email" required>
+
+          <label for="r_item">Título do Item:</label>
+          <input id="r_item" required>
+
+          <button type="submit">Reservar</button>
+          <p id="msgReserva" class="sucesso"></p>
+        </fieldset>
+      </form>
+
+      <h3>Reservas</h3>
+      <table id="tabelaReservas" class="table">
+        <thead><tr><th>Usuário</th><th>Item</th><th>Quando</th><th>Expira Em</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- RELATÓRIOS -->
+    <section id="relatorios" class="sec hidden">
+      <h3>Relatórios Rápidos</h3>
+      <div class="rel-grid">
+        <div class="card">
+          <h4>Total Usuários</h4><p id="rel_total_usuarios">0</p>
+        </div>
+        <div class="card">
+          <h4>Total Itens</h4><p id="rel_total_itens">0</p>
+        </div>
+        <div class="card">
+          <h4>Itens Emprestados</h4><p id="rel_itens_emprestados">0</p>
+        </div>
+        <div class="card">
+          <h4>Usuários em Atraso</h4><p id="rel_usuarios_atraso">0</p>
+        </div>
+      </div>
+
+      <h3>Itens mais emprestados</h3>
+      <ul id="rel_top_itens"></ul>
+    </section>
+
+  </main>
+
+  <footer>
+    <p>© 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

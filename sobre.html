@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Documentação - Biblioteca+</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header-home">
+    <h1>📘 Documentação do Sistema Biblioteca+</h1>
+    <p>Automatizando o controle de empréstimos e gestão de acervos</p>
+    <div class="botoes-home">
+      <a href="index.html" class="btn-secundario">← Voltar à Home</a>
+    </div>
+  </header>
+
+  <main class="conteudo">
+    <section>
+      <h2>Descrição da Aplicação</h2>
+      <p>
+        A instituição Biblioteca+ possui acervo diversificado (livros, revistas, tablets, notebooks e e-readers).
+        O sistema substitui o controle manual por planilhas, gerando automação de empréstimos, devoluções, multas, reservas e relatórios.
+      </p>
+    </section>
+
+    <section>
+      <h2>🎯 Objetivo</h2>
+      <p>Automatizar o processo de gestão de empréstimos, permitir consultas rápidas, gerar relatórios e enviar notificações.</p>
+    </section>
+
+    <section>
+      <h2>👥 Atores Envolvidos</h2>
+      <ul>
+        <li><b>Administrador</b> — cadastra/gestiona usuários e acervos.</li>
+        <li><b>Bibliotecário</b> — gerencia empréstimos, devoluções e reservas.</li>
+        <li><b>Usuário</b> — alunos/colaboradores que solicitam empréstimos.</li>
+        <li><b>Sistema</b> — tarefas automáticas: notificações, bloqueios e multas.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>💾 Módulos Principais</h2>
+      <ol>
+        <li><b>Cadastro de Usuários</b>: limite de empréstimos, penalidades.</li>
+        <li><b>Gestão de Acervos</b>: cadastro, status (disponível/emprestado/reservado/manutenção).</li>
+        <li><b>Empréstimos e Devoluções</b>: registro, cálculo de multa automático.</li>
+        <li><b>Reservas</b>: notifica e expira em 24h.</li>
+        <li><b>Notificações e Relatórios</b>: relatórios administrativos e alertas.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>🧩 Regras de Negócio</h2>
+      <ul>
+        <li>Máx. 5 itens simultâneos por usuário (máx. 2 eletrônicos).</li>
+        <li>Prazo: 7 dias (eletrônicos) / 15 dias (livros/revistas).</li>
+        <li>Multa automática por atraso; suspensão de reincidentes.</li>
+        <li>Reservas: retirada em até 24h após notificação.</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>💡 Cenário de Uso</h2>
+      <p>Maria (aluna) pega o livro "Inteligência Artificial..."; recebe lembrete; devolve; item volta a disponível.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+  </footer>
+</body>
+</html>
