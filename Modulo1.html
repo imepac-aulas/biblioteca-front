@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CRUD de Usuários - Biblioteca</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+      color: #0056b3;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #007bff;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 10px;
+      transition: background-color 0.3s;
+    }
+
+    button:hover { background-color: #0056b3; }
+    #clear-button { background-color: #6c757d; }
+
+    #user-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    #user-table th, #user-table td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+
+    #user-table th { background-color: #f2f2f2; }
+
+    .edit-btn { background-color: #ffc107; color: #333; }
+    .delete-btn { background-color: #dc3545; color: white; }
+    .penality-btn { background-color: #fd7e14; color: white; }
+
+    .message {
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 15px;
+      display: none;
+    }
+    .success { background-color: #d4edda; color: #155724; }
+    .error { background-color: #f8d7da; color: #721c24; }
+
+    .search-box {
+      margin-top: 15px;
+      margin-bottom: 20px;
+    }
+    nav {
+  background-color: #007bff;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+}
+.logo {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+.menu {
+  display: flex;
+  gap: 20px;
+}
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+.menu a:hover {
+  text-decoration: underline;
+}
+
+  </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">Biblioteca+ Soluções</div>
+        <div class="menu">
+          <a href="index.html">index</a>
+          <a href="Modulo1.html">Modulo 1</a>
+          <a href="Modulo 2.html">Modulo 2</a>
+          <a href="Modulo3.html">Modulo 3</a>
+          <a href="Modulo 4.html">Modulo 4</a>
+          <a href="Modulo5.html">Modulo 5</a>
+        </div>
+      </nav>
+  <div class="container">
+    <h1>Cadastro de Usuários da Biblioteca</h1>
+
+    <div id="message" class="message"></div>
+
+    <form id="user-form">
+      <h2>Dados do Usuário</h2>
+      <input type="hidden" id="user-id">
+
+      <label for="nome">Nome:</label>
+      <input type="text" id="nome" required placeholder="Ex: Maria da Silva">
+
+      <label for="tipo">Tipo de Usuário:</label>
+      <select id="tipo" required>
+        <option value="" disabled selected>Selecione o tipo de usuário</option>
+        <option value="Aluno">Aluno</option>
+        <option value="Professor">Professor</option>
+        <option value="Colaborador">Colaborador</option>
+      </select>
+
+      <label for="matricula">Matrícula/ID:</label>
+      <input type="text" id="matricula" required placeholder="Ex: A12345 ou 98765">
+
+      <label for="limiteEmprestimo">Limite de Empréstimos:</label>
+      <input type="number" id="limiteEmprestimo" placeholder="Ex: 5">
+
+      <label for="penalidades">Penalidades (Dias de Suspensão):</label>
+      <input type="number" id="penalidades" value="0" min="0" required>
+
+      <button type="submit" id="submit-button">Cadastrar Usuário</button>
+      <button type="button" id="clear-button" style="display:none;">Cancelar Edição</button>
+    </form>
+
+    <hr>
+
+    <h2>Lista de Usuários</h2>
+
+    <div class="search-box">
+      <label for="search">Pesquisar por nome:</label>
+      <input type="text" id="search" placeholder="Digite o nome para pesquisar...">
+    </div>
+
+    <table id="user-table">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Matrícula/ID</th>
+          <th>Tipo</th>
+          <th>Limite Empréstimos</th>
+          <th>Suspensão (Dias)</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody id="user-list"></tbody>
+    </table>
+  </div>
+
+  <script>
+    const userForm = document.getElementById('user-form');
+    const userList = document.getElementById('user-list');
+    const userIdInput = document.getElementById('user-id');
+    const nomeInput = document.getElementById('nome');
+    const tipoInput = document.getElementById('tipo');
+    const matriculaInput = document.getElementById('matricula');
+    const limiteInput = document.getElementById('limiteEmprestimo');
+    const penalidadesInput = document.getElementById('penalidades');
+    const submitButton = document.getElementById('submit-button');
+    const clearButton = document.getElementById('clear-button');
+    const messageBox = document.getElementById('message');
+    const searchInput = document.getElementById('search');
+
+    const LIMITES_EMPRESTIMO = { 'Aluno': 3, 'Professor': 10, 'Colaborador': 5 };
+
+    tipoInput.addEventListener('change', () => {
+      const tipo = tipoInput.value;
+      if (!limiteInput.value) {
+        limiteInput.value = LIMITES_EMPRESTIMO[tipo] || 0;
+      }
+    });
+
+    function getUsers() {
+      return JSON.parse(localStorage.getItem('bibliotecaUsers') || '[]');
+    }
+
+    function saveUsers(users) {
+      localStorage.setItem('bibliotecaUsers', JSON.stringify(users));
+    }
+
+    function showMessage(text, type) {
+      messageBox.textContent = text;
+      messageBox.className = `message ${type}`;
+      messageBox.style.display = 'block';
+      setTimeout(() => { messageBox.style.display = 'none'; }, 3000);
+    }
+
+    userForm.addEventListener('submit', e => {
+      e.preventDefault();
+      try {
+        const users = getUsers();
+        const id = userIdInput.value;
+        const newUser = {
+          id: id || Date.now().toString(),
+          nome: nomeInput.value,
+          tipo: tipoInput.value,
+          matricula: matriculaInput.value,
+          limiteEmprestimo: parseInt(limiteInput.value) || 0,
+          penalidades: parseInt(penalidadesInput.value) || 0
+        };
+
+        if (id) {
+          const index = users.findIndex(u => u.id === id);
+          if (index !== -1) users[index] = newUser;
+        } else {
+          users.push(newUser);
+        }
+
+        saveUsers(users);
+        renderUserList();
+        resetForm();
+        showMessage("Usuário salvo com sucesso!", "success");
+      } catch (error) {
+        showMessage("Erro ao salvar usuário.", "error");
+      }
+    });
+
+    function renderUserList() {
+      const users = getUsers();
+      userList.innerHTML = '';
+
+      const searchTerm = searchInput.value.toLowerCase();
+      const filteredUsers = users.filter(u => u.nome.toLowerCase().includes(searchTerm));
+
+      if (filteredUsers.length === 0) {
+        userList.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum usuário encontrado.</td></tr>';
+        return;
+      }
+
+      filteredUsers.forEach(user => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${user.nome}</td>
+          <td>${user.matricula}</td>
+          <td>${user.tipo}</td>
+          <td>${user.limiteEmprestimo}</td>
+          <td>${user.penalidades}</td>
+          <td>
+            <button class="edit-btn" onclick="editUser('${user.id}')">Editar</button>
+            <button class="penality-btn" onclick="addPenalityPrompt('${user.id}')">Penalizar</button>
+            <button class="delete-btn" onclick="deleteUser('${user.id}')">Excluir</button>
+          </td>`;
+        userList.appendChild(row);
+      });
+    }
+
+    window.editUser = function(id) {
+      const user = getUsers().find(u => u.id === id);
+      if (user) {
+        userIdInput.value = user.id;
+        nomeInput.value = user.nome;
+        tipoInput.value = user.tipo;
+        matriculaInput.value = user.matricula;
+        limiteInput.value = user.limiteEmprestimo;
+        penalidadesInput.value = user.penalidades;
+        submitButton.textContent = 'Salvar Edição';
+        clearButton.style.display = 'inline-block';
+        window.scrollTo(0, 0);
+      }
+    }
+
+    window.deleteUser = function(id) {
+      if (confirm("Deseja realmente excluir este usuário?")) {
+        let users = getUsers().filter(u => u.id !== id);
+        saveUsers(users);
+        renderUserList();
+        showMessage("Usuário excluído com sucesso!", "success");
+      }
+    }
+
+    window.addPenalityPrompt = function(id) {
+      const dias = prompt("Quantos dias de suspensão deseja adicionar/remover? (número negativo para remover)");
+      if (dias === null || isNaN(dias)) return;
+
+      let users = getUsers();
+      const userIndex = users.findIndex(u => u.id === id);
+      if (userIndex !== -1) {
+        users[userIndex].penalidades = Math.max(0, users[userIndex].penalidades + parseInt(dias));
+        saveUsers(users);
+        renderUserList();
+        showMessage("Penalidade atualizada!", "success");
+      }
+    }
+
+    function resetForm() {
+      userForm.reset();
+      userIdInput.value = '';
+      submitButton.textContent = 'Cadastrar Usuário';
+      clearButton.style.display = 'none';
+    }
+
+    clearButton.addEventListener('click', resetForm);
+    searchInput.addEventListener('input', renderUserList);
+    document.addEventListener('DOMContentLoaded', renderUserList);
+  </script>
+</body>
+</html>
