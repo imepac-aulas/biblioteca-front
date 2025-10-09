@@ -3,23 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <title>Biblioteca+ Soluções | Transformando a Gestão de Bibliotecas</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+        /* ------------------------------ */
+        /* RESET BÁSICO E CONFIGURAÇÕES   */
+        /* ------------------------------ */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(120deg, #f5fdf8 0%, #e8f8ee 100%);
+            color: #222;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ------------------------------ */
+        /* CABEÇALHO                      */
+        /* ------------------------------ */
+        header {
+            background: linear-gradient(90deg, #40916c 60%, #52b788 100%);
+            color: #fff;
+            text-align: center;
+            padding: 40px 20px 24px;
+            border-bottom-left-radius: 24px;
+            border-bottom-right-radius: 24px;
+            box-shadow: 0 3px 15px rgba(44, 62, 80, 0.15);
+        }
+
+        header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            font-weight: 400;
+            opacity: 0.95;
+        }
+
+        /* ------------------------------ */
+        /* MENU DE NAVEGAÇÃO              */
+        /* ------------------------------ */
+        nav {
+            margin-top: 22px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 10px 18px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background-color: #fff;
+            color: #40916c;
+            transform: translateY(-2px);
+        }
+
+        /* ------------------------------ */
+        /* CONTEÚDO PRINCIPAL             */
+        /* ------------------------------ */
+        main {
+            flex: 1;
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 30px;
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 6px 32px rgba(44, 62, 80, 0.10);
+            line-height: 1.6;
+        }
+
+        section {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        section:last-child {
+            border-bottom: none;
+        }
+
+        h2 {
+            color: #2d6a4f;
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.1rem;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 25px;
+            list-style: disc;
+        }
+
+        li {
+            font-size: 1.05rem;
+            margin-bottom: 6px;
+        }
+
+        strong {
+            color: #2d6a4f;
+        }
+
+        /* ------------------------------ */
+        /* CONTATO                        */
+        /* ------------------------------ */
+        .contato ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .contato li {
+            margin-bottom: 8px;
+            font-size: 1.05rem;
+        }
+
+        .contato li:first-child {
+            color: #2d6a4f;
+            font-weight: 600;
+        }
+
+        /* ------------------------------ */
+        /* RODAPÉ                         */
+        /* ------------------------------ */
+        footer {
+            text-align: center;
+            padding: 22px 0;
+            background: linear-gradient(90deg, #40916c 60%, #52b788 100%);
+            color: #fff;
+            font-size: 1.05rem;
+            border-top-left-radius: 24px;
+            border-top-right-radius: 24px;
+            box-shadow: 0 -2px 12px rgba(44, 62, 80, 0.08);
+        }
+
+        /* ------------------------------ */
+        /* RESPONSIVIDADE                 */
+        /* ------------------------------ */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            main {
+                padding: 18px;
+                margin: 20px 10px;
+            }
+
+            h2 {
+                font-size: 1.3rem;
+            }
+
+            nav a {
+                font-size: 0.95rem;
+                padding: 8px 14px;
+            }
+
+            footer {
+                font-size: 0.95rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Biblioteca+ Soluções</h1>
-        <nav>
-          <div class="menu">
-            <a href="index.html">index</a>
-            <a href="Modulo1.html">Modulo 1</a>
-            <a href="Modulo 2.html">Modulo 2</a>
-            <a href="Modulo3.html">Modulo 3</a>
-            <a href="Modulo 4.html">Modulo 4</a>
-            <a href="Modulo5.html">Modulo 5</a>
-          </div>
-        </nav>
         <p>Inovação e tecnologia para transformar a gestão de bibliotecas</p>
+        <!-- Menu de Navegação -->
+        <nav>
+            <a href="index.html">Início</a>
+            <a href="pages/login.html">Login</a>
+            <a href="pages/acervos.html">Controle de Acervos</a>
+            <a href="pages/emprestimos.html">Empréstimos</a>
+            <a href="pages/reservas.html">Reservas</a>
+        </nav>
     </header>
+
     <main>
         <section class="empresa">
             <h2>Quem Somos</h2>
@@ -65,8 +253,10 @@
             </ul>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
     </footer>
 </body>
 </html>
+
