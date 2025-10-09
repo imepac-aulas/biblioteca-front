@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca+ | Cadastro de Usuários</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <header>
+        <h1>📚 Biblioteca+ Soluções</h1>
+        <p>Sistema Completo de Gestão Bibliotecária</p>
+    </header>
+
+    <nav>
+        <a href="../modulo1-cadastro-usuarios/index.html" class="nav-btn">👥 Usuários</a>
+        <a href="../modulo2-gestao-acervos/index.html" class="nav-btn">📖 Acervos</a>
+        <a href="../modulo3-emprestimos-devolucoes/index.html" class="nav-btn">📤 Empréstimos</a>
+        <a href="../modulo4-reservas/index.html" class="nav-btn">🔖 Reservas</a>
+        <a href="../modulo5-notificacoes-relatorios/index.html" class="nav-btn">📊 Relatórios</a>
+    </nav>
+
+
+    <main>
+        <!-- MÓDULO 1: CADASTRO DE USUÁRIOS -->
+        <div id="usuarios" class="module active">
+            <div class="container">
+                <h2>👥 Cadastro de Usuários</h2>
+                <div id="usuarioSuccess" class="alert alert-success">✅ Usuário cadastrado com sucesso!</div>
+                <div id="usuarioError" class="alert alert-danger">❌ Por favor, corrija os erros no formulário.</div>
+                <form id="usuarioForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Nome Completo<span class="required">*</span></label>
+                            <input type="text" id="usuarioNome" placeholder="Ex: Maria Silva Santos">
+                            <div class="error-message" id="usuarioNomeError">O nome completo é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>CPF<span class="required">*</span></label>
+                            <input type="text" id="usuarioCpf" placeholder="000.000.000-00" maxlength="14">
+                            <div class="error-message" id="usuarioCpfError">CPF inválido.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>E-mail<span class="required">*</span></label>
+                            <input type="email" id="usuarioEmail" placeholder="usuario@email.com">
+                            <div class="error-message" id="usuarioEmailError">E-mail inválido.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Telefone<span class="required">*</span></label>
+                            <input type="tel" id="usuarioTelefone" placeholder="(00) 00000-0000" maxlength="15">
+                            <div class="error-message" id="usuarioTelefoneError">Telefone inválido.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Usuário<span class="required">*</span></label>
+                            <select id="usuarioTipo">
+                                <option value="">Selecione</option>
+                                <option value="Aluno">Aluno</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Colaborador">Colaborador</option>
+                            </select>
+                            <div class="error-message" id="usuarioTipoError">Selecione o tipo de usuário.</div>
+                        </div>
+                        <div class="form-group">
+                            <label>Matrícula/Registro<span class="required">*</span></label>
+                            <input type="text" id="usuarioMatricula" placeholder="Ex: 2024001">
+                            <div class="error-message" id="usuarioMatriculaError">Matrícula obrigatória.</div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparUsuarioForm()">🔄 Limpar</button>
+                        <button type="submit" class="btn btn-primary">💾 Cadastrar Usuário</button>
+                    </div>
+                </form>
+            </div>
+            <div class="container">
+                <h2>📋 Usuários Cadastrados</h2>
+                <div class="search-box">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>🔍 Buscar por Nome</label>
+                            <input type="text" id="searchUsuarioNome" placeholder="Digite o nome...">
+                        </div>
+                        <div class="form-group">
+                            <label>Filtrar por Tipo</label>
+                            <select id="searchUsuarioTipo">
+                                <option value="">Todos</option>
+                                <option value="Aluno">Aluno</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Colaborador">Colaborador</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Tipo</th>
+                                <th>Matrícula</th>
+                                <th>Status</th>
+                                <th>Empréstimos</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosTable">
+                            <tr><td colspan="7" class="empty-state">Nenhum usuário cadastrado.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- MÓDULO 2: GESTÃO DE ACERVOS -->
+        <div id="acervos" class="module">
+             <!-- O conteúdo deste módulo estará no seu respectivo arquivo, mas o container precisa existir para a navegação funcionar -->
+        </div>
+
+        <!-- MÓDULO 3: EMPRÉSTIMOS E DEVOLUÇÕES -->
+        <div id="emprestimos" class="module">
+             <!-- O conteúdo deste módulo estará no seu respectivo arquivo, mas o container precisa existir para a navegação funcionar -->
+        </div>
+
+        <!-- MÓDULO 4: RESERVAS -->
+        <div id="reservas" class="module">
+             <!-- O conteúdo deste módulo estará no seu respectivo arquivo, mas o container precisa existir para a navegação funcionar -->
+        </div>
+
+        <!-- MÓDULO 5: NOTIFICAÇÕES E RELATÓRIOS -->
+        <div id="relatorios" class="module">
+             <!-- O conteúdo deste módulo estará no seu respectivo arquivo, mas o container precisa existir para a navegação funcionar -->
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>
+
