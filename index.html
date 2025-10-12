@@ -1,62 +1,191 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Biblioteca+ Soluções | Transformando a Gestão de Bibliotecas</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Plus - Sistema de Gestão</title>
+    <!-- Estilos Externos -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <header>
-        <h1>Biblioteca+ Soluções</h1>
-        <p>Inovação e tecnologia para transformar a gestão de bibliotecas</p>
-    </header>
-    <main>
-        <section class="empresa">
-            <h2>Quem Somos</h2>
-            <p>
-                A <strong>Biblioteca+ Soluções</strong> é uma empresa especializada em sistemas inteligentes para gestão de bibliotecas. Atuamos em instituições de ensino, empresas e órgãos públicos, oferecendo tecnologia de ponta para automatizar processos, facilitar o acesso à informação e promover a cultura do conhecimento.
-            </p>
-        </section>
-        <section class="missao">
-            <h2>Missão</h2>
-            <p>
-                Facilitar o acesso ao conhecimento, promovendo inovação e eficiência na gestão de acervos, empréstimos e serviços bibliotecários.
-            </p>
-        </section>
-        <section class="valores">
-            <h2>Valores</h2>
-            <ul>
-                <li>Compromisso com a educação</li>
-                <li>Inovação tecnológica</li>
-                <li>Transparência e ética</li>
-                <li>Excelência no atendimento</li>
-                <li>Responsabilidade social</li>
-            </ul>
-        </section>
-        <section class="diferenciais">
-            <h2>Nossos Diferenciais</h2>
-            <ul>
-                <li>Sistema 100% online e seguro</li>
-                <li>Suporte especializado e treinamento</li>
-                <li>Relatórios inteligentes e personalizáveis</li>
-                <li>Integração com plataformas educacionais</li>
-                <li>Notificações automáticas e gestão de penalidades</li>
-            </ul>
-        </section>
-        <section class="contato">
-            <h2>Fale Conosco</h2>
-            <p>
-                Quer saber como podemos transformar a gestão da sua biblioteca? Entre em contato e agende uma demonstração!
-            </p>
-            <ul>
-                <li>Email: contato@bibliotecamais.com.br</li>
-                <li>Telefone: (31) 99999-0000</li>
-                <li>Endereço: Rua da Inovação, 123 - Centro, Belo Horizonte/MG</li>
-            </ul>
-        </section>
-    </main>
-    <footer>
-        <p>&copy; 2025 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
-    </footer>
+
+    <div id="app-container">
+        <!-- Barra Lateral de Navegação -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h1 class="sidebar-title"><i class="fas fa-book-open-reader"></i>Biblioteca Plus</h1>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#dashboard" class="sidebar-link active" data-view="dashboard"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
+                <a href="#usuarios" class="sidebar-link" data-view="usuarios"><i class="fas fa-users"></i><span>Usuários</span></a>
+                <a href="#acervos" class="sidebar-link" data-view="acervos"><i class="fas fa-book-bookmark"></i><span>Acervos</span></a>
+                <a href="#emprestimos" class="sidebar-link" data-view="emprestimos"><i class="fas fa-handshake"></i><span>Empréstimos</span></a>
+                <a href="#reservas" class="sidebar-link" data-view="reservas"><i class="fas fa-clock"></i><span>Reservas</span></a>
+                <a href="#relatorios" class="sidebar-link" data-view="relatorios"><i class="fas fa-chart-pie"></i><span>Relatórios</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <p>© 2024 Biblioteca Plus</p>
+            </div>
+        </aside>
+
+        <!-- Conteúdo Principal -->
+        <main class="main-content">
+            <header class="main-header">
+                <h2 id="view-title">Dashboard</h2>
+                <div class="user-profile">
+                    <span>Bibliotecário</span>
+                    <i class="fas fa-user-circle"></i>
+                </div>
+            </header>
+
+            <div class="page-content">
+                <!-- Seção Dashboard -->
+                <section id="dashboard-view" class="view-section active">
+                    <h3>Visão Geral</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card"><i class="fas fa-users icon-blue"></i><div><p>Total de Usuários</p><p id="stats-users" class="stat-number">0</p></div></div>
+                        <div class="stat-card"><i class="fas fa-book icon-green"></i><div><p>Total de Itens</p><p id="stats-items" class="stat-number">0</p></div></div>
+                        <div class="stat-card"><i class="fas fa-hand-holding-hand icon-yellow"></i><div><p>Itens Emprestados</p><p id="stats-loans" class="stat-number">0</p></div></div>
+                        <div class="stat-card"><i class="fas fa-exclamation-triangle icon-red"></i><div><p>Atrasos</p><p id="stats-overdue" class="stat-number">0</p></div></div>
+                    </div>
+                </section>
+
+                <!-- Seção Cadastro de Usuários -->
+                <section id="usuarios-view" class="view-section">
+                    <div class="card">
+                        <h3>Cadastro de Usuário</h3>
+                        <form id="user-form" class="form-grid">
+                            <input type="hidden" id="userId">
+                            <div><label for="userName">Nome</label><input type="text" id="userName" class="form-input" required></div>
+                            <div><label for="userType">Tipo</label><select id="userType" class="form-select"><option>Aluno</option><option>Colaborador</option><option>Professor</option></select></div>
+                            <div><label for="userMatricula">Matrícula/ID</label><input type="text" id="userMatricula" class="form-input" required></div>
+                            <div><label for="userEmail">E-mail</label><input type="email" id="userEmail" class="form-input" required></div>
+                            <div class="form-actions">
+                                <button type="button" id="cancel-user" class="btn btn-secondary">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>Usuários Cadastrados</h3>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead><tr><th>Nome</th><th>Matrícula/ID</th><th>Tipo</th><th>Status</th><th>Ações</th></tr></thead>
+                                <tbody id="user-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Seção Gestão de Acervos -->
+                <section id="acervos-view" class="view-section">
+                     <div class="card">
+                        <h3>Cadastro de Item do Acervo</h3>
+                        <form id="item-form" class="form-grid-3">
+                            <input type="hidden" id="itemId">
+                            <div><label for="itemTitle">Título</label><input type="text" id="itemTitle" class="form-input" required></div>
+                            <div><label for="itemAuthor">Autor</label><input type="text" id="itemAuthor" class="form-input" required></div>
+                            <div><label for="itemCategory">Categoria</label><input type="text" id="itemCategory" class="form-input"></div>
+                            <div><label for="itemType">Tipo</label><select id="itemType" class="form-select"><option>Livro</option><option>Revista</option><option>Eletrônico</option></select></div>
+                            <div><label for="itemCopies">Nº de Exemplares</label><input type="number" id="itemCopies" min="1" value="1" class="form-input" required></div>
+                            <div class="form-actions-full">
+                                <button type="button" id="cancel-item" class="btn btn-secondary">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Salvar Item</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>Catálogo do Acervo</h3>
+                            <input type="search" id="search-item" placeholder="Buscar por título ou autor..." class="form-input">
+                        </div>
+                        <div class="table-container">
+                             <table class="data-table">
+                                <thead><tr><th>Título</th><th>Autor</th><th>Tipo</th><th>Status</th><th>Ações</th></tr></thead>
+                                <tbody id="item-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção Empréstimos e Devoluções -->
+                <section id="emprestimos-view" class="view-section">
+                    <div class="card">
+                        <h3>Registrar Novo Empréstimo</h3>
+                        <form id="loan-form" class="form-grid">
+                            <div><label for="loanUser">Usuário</label><select id="loanUser" class="form-select" required></select></div>
+                            <div><label for="loanItem">Item Disponível</label><select id="loanItem" class="form-select" required></select></div>
+                            <div class="form-actions"><button type="submit" class="btn btn-success">Registrar Empréstimo</button></div>
+                        </form>
+                    </div>
+                    <div class="card">
+                        <h3>Empréstimos Ativos</h3>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead><tr><th>Usuário</th><th>Item</th><th>Data Empréstimo</th><th>Data Devolução</th><th>Ação</th></tr></thead>
+                                <tbody id="loan-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- Seção Reservas -->
+                <section id="reservas-view" class="view-section">
+                    <div class="card">
+                        <h3>Fila de Reservas</h3>
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead><tr><th>Item</th><th>Usuário na Fila</th><th>Data da Reserva</th></tr></thead>
+                                <tbody id="reservation-list"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Seção Relatórios -->
+                <section id="relatorios-view" class="view-section">
+                    <div class="reports-grid">
+                        <div class="card">
+                            <h3>Itens Mais Emprestados</h3>
+                             <div class="table-container">
+                                <table class="data-table">
+                                    <thead><tr><th>Título</th><th>Nº de Empréstimos</th></tr></thead>
+                                    <tbody id="report-top-items"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <h3>Usuários com Atrasos</h3>
+                             <div class="table-container">
+                                <table class="data-table">
+                                    <thead><tr><th>Nome do Usuário</th><th>Dias em Atraso</th></tr></thead>
+                                    <tbody id="report-overdue-users"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title">Confirmar Ação</h3>
+            <p id="modal-message">Você tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions">
+                <button id="modal-cancel" class="btn btn-secondary">Cancelar</button>
+                <button id="modal-confirm" class="btn btn-danger">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Principal (tipo module para permitir imports) -->
+    <script type="module" src="js/main.js"></script>
+
 </body>
 </html>
+
