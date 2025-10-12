@@ -1,0 +1,70 @@
+
+:root {
+    --primary-color: #0077b6;
+    --secondary-color: #00b4d8;
+    --danger-color: #e74c3c;
+    --success-color: #2ecc71;
+    --warning-color: #f39c12;
+    --background-color: #f8f9fa;
+    --text-color: #343a40;
+    --card-bg: #ffffff;
+    --shadow: 0 4px 12px rgba(0,0,0,0.08);
+    --border-radius: 8px;
+ }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+}
+.container { max-width: 1400px; margin: 0 auto; padding: 20px; }
+ h1, h2 { font-family: 'Lora', serif; color: var(--primary-color); margin-bottom: 20px; }
+.btn { padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: bold; color: white; transition: opacity 0.3s ease; }
+.btn:hover { opacity: 0.9; }
+        .btn-primary { background-color: var(--primary-color); }
+        .btn-edit { background-color: var(--warning-color); }
+        .btn-delete { background-color: var(--danger-color); }
+        .btn-success { background-color: var(--success-color); }
+
+        /* --- Layout Principal --- */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 30px;
+        }
+
+        .card { background-color: var(--card-bg); padding: 25px; border-radius: var(--border-radius); box-shadow: var(--shadow); }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+        
+        /* --- Tabela do Acervo --- */
+        .table-container { overflow-x: auto; }
+        .acervo-table { width: 100%; border-collapse: collapse; }
+        .acervo-table th, .acervo-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+        .acervo-table th { background-color: var(--primary-color); color: white; }
+        .actions-cell button { margin-right: 5px; }
+        
+        /* --- Modal de Exemplares --- */
+        .modal {
+            display: none; position: fixed; z-index: 1001; left: 0; top: 0;
+            width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe; margin: 10% auto; padding: 20px;
+            border: 1px solid #888; width: 80%; max-width: 600px; border-radius: var(--border-radius);
+            position: relative;
+        }
+        .close-button {
+            color: #aaa; float: right; font-size: 28px; font-weight: bold;
+            position: absolute; right: 20px; top: 10px; cursor: pointer;
+        }
+        .exemplares-list { list-style: none; padding: 0; }
+        .exemplares-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee; }
+        .exemplares-list li:last-child { border-bottom: none; }
+        .exemplares-list select { padding: 5px; border-radius: 4px; }
+
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
+    

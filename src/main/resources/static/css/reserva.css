@@ -1,0 +1,49 @@
+
+        :root {
+            --primary-color: #0077b6;
+            --secondary-color: #00b4d8;
+            --danger-color: #e74c3c;
+            --success-color: #2ecc71;
+            --warning-color: #f39c12;
+            --info-color: #3498db;
+            --background-color: #f8f9fa;
+            --text-color: #343a40;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 12px rgba(0,0,0,0.08);
+            --border-radius: 8px;
+        }
+
+        /* --- Estilos Gerais --- */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        h1, h2 { font-family: 'Lora', serif; color: var(--primary-color); margin-bottom: 20px; }
+        .btn { padding: 8px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 0.9rem; font-weight: bold; color: white; transition: opacity 0.3s ease; }
+        .btn:hover { opacity: 0.9; }
+        .btn-success { background-color: var(--success-color); }
+        .btn-info { background-color: var(--info-color); }
+        .btn-danger { background-color: var(--danger-color); }
+
+        .card { background-color: var(--card-bg); padding: 25px; border-radius: var(--border-radius); box-shadow: var(--shadow); margin-bottom: 30px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 1rem; }
+
+        /* --- Tabela de Reservas --- */
+        .table-container { overflow-x: auto; }
+        .reservas-table { width: 100%; border-collapse: collapse; }
+        .reservas-table th, .reservas-table td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; vertical-align: middle; }
+        .reservas-table th { background-color: var(--primary-color); color: white; }
+        .item-title { font-weight: bold; }
+        .user-name { color: #555; font-size: 0.9em; }
+
+        /* --- Status Badges --- */
+        .status { padding: 5px 10px; border-radius: 15px; color: white; font-weight: bold; font-size: 0.8em; text-align: center; }
+        .status-aguardando { background-color: var(--warning-color); }
+        .status-disponivel { background-color: var(--success-color); }
+        .status-finalizada, .status-cancelada { background-color: #6c757d; }
+  

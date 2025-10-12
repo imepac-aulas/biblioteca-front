@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Reservas - Biblioteca Conecta</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/reserva.css">
+</head>
+<body>
+    <header style="padding: 1rem; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%;">
+        <a href="index.html" style="text-decoration: none; color: var(--primary-color);"><h1 style="margin: 0; font-size: 1.5rem;">Biblioteca Conecta</h1></a>
+        <nav>
+            <a href="index.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Página Inicial</a>
+            <a href="acervo.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Gerenciar Acervo</a>
+            <a href="crud_usuarios.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Gerenciar Usuários</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Criar Nova Reserva</h2>
+            <form id="reserva-form">
+                <div class="form-group">
+                    <label for="user-email">Email do Usuário</label>
+                    <input type="email" id="user-email" placeholder="Digite o email do usuário que fará a reserva" required>
+                </div>
+                <div class="form-group">
+                    <label for="item-id">ID do Exemplar Indisponível</label>
+                    <input type="number" id="item-id" placeholder="Digite o ID do exemplar específico (ex: 102)" required>
+                </div>
+                <button type="submit" class="btn btn-info">Criar Reserva</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Fila de Reservas Ativas</h2>
+            <div class="table-container">
+                <table class="reservas-table">
+                    <thead>
+                        <tr>
+                            <th>Item Reservado</th>
+                            <th>Usuário</th>
+                            <th>Data da Reserva</th>
+                            <th>Status</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reservas-list">
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+<script src="/js/reserva.js"></script>
+</body>
+</html>

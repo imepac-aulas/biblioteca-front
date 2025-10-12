@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Acervo - Biblioteca Conecta</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/acervo.css">
+</head>
+<body>
+     <header style="padding: 1rem; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); margin-bottom: 20px; display: flex; justify-content: space-between; align-items: center;">
+        <h1 style="margin: 0; font-size: 1.5rem; color: #0077b6;">Gerenciamento de Acervo</h1>
+        <nav>
+            <a href="index.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Página Inicial</a>
+            <a href="reservas.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Reservas</a>
+            <a href="crud_usuarios.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Gerenciar Usuários</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Gerenciamento de Acervo</h1>
+
+        <div class="main-layout">
+            <aside class="left-column">
+                <div class="card" id="form-card">
+                    <h2 id="form-title">Cadastrar Novo Item</h2>
+                    <form id="item-form">
+                        <input type="hidden" id="item-id">
+                        <div class="form-group">
+                            <label for="tipo">Tipo de Item</label>
+                            <select id="tipo" required>
+                                <option value="Livro">Livro</option>
+                                <option value="Revista">Revista</option>
+                                <option value="Dispositivo Eletrônico">Dispositivo Eletrônico</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="titulo">Título</label>
+                            <input type="text" id="titulo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="autor" id="autor-label">Autor</label>
+                            <input type="text" id="autor" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria">Categoria</label>
+                            <input type="text" id="categoria" required placeholder="Ex: Ficção, Tecnologia...">
+                        </div>
+                        <div class="form-group" id="quantidade-group">
+                            <label for="quantidade">Id</label>
+                            <input type="number" id="quantidade" min="1" value="1" required>
+                        </div>
+                        <button type="submit" id="submit-button" class="btn btn-primary">Adicionar Item</button>
+                    </form>
+                </div>
+
+                <div class="card" style="margin-top: 30px;">
+                    <h2>Pesquisa Avançada</h2>
+                    <form id="search-form">
+                        <div class="form-group">
+                            <label for="search-term">Título ou Autor</label>
+                            <input type="text" id="search-term" placeholder="Pesquisar...">
+                        </div>
+                        <div class="form-group">
+                            <label for="search-category">Categoria</label>
+                            <input type="text" id="search-category" placeholder="Qualquer categoria">
+                        </div>
+                         <div class="form-group">
+                            <label for="search-status">Status do Exemplar</label>
+                            <select id="search-status">
+                                <option value="">Qualquer Status</option>
+                                <option value="Disponível">Disponível</option>
+                                <option value="Emprestado">Emprestado</option>
+                                <option value="Reservado">Reservado</option>
+                                <option value="Em Manutenção">Em Manutenção</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+            </aside>
+
+            <main class="right-column">
+                <div class="card">
+                    <h2>Itens Cadastrados</h2>
+                    <div class="table-container">
+                        <table class="acervo-table">
+                            <thead>
+                                <tr>
+                                    <th>Título</th>
+                                    <th>Autor/Fabricante</th>
+                                    <th>Tipo</th>
+                                    <th>Id</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="acervo-list">
+                                </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="exemplares-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-title">Gerenciar Exemplares</h2>
+            <ul id="exemplares-list" class="exemplares-list"></ul>
+        </div>
+    </div>
+
+<script src="/js/acervo.js"></script>
+</body>
+</html>
