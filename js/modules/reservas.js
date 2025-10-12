@@ -1,35 +1,69 @@
 import { DataService } from '../services/dataService.js';
+import { UIService } from '../services/uiService.js';
 
 // --- Módulo de Reservas (reservas.js) ---
-// OBJETIVO: Listar as reservas ativas e permitir a criação de novas reservas (a partir da tela de Acervos).
 export const ReservaModule = {
-    // 1. Mapear os elementos do DOM
     list: document.getElementById('reservation-list'),
 
     init() {
-        // Este módulo pode não precisar de listeners diretos, pois as ações
-        // de adicionar reserva vêm de outros módulos (Acervo).
-        console.log('Módulo de Reservas inicializado (desenvolvimento pendente).');
+        // Nenhuma interação direta nesta tela por enquanto
     },
 
     render() {
-        // 2. Implementar a lógica de renderização
-        //    - Limpar a lista atual.
-        //    - Buscar as reservas em DataService.getReservations().
-        //    - Para cada reserva, buscar os dados do item e do usuário.
-        //    - Criar o HTML da linha e adicionar na lista.
-        this.list.innerHTML = `<tr><td colspan="3" class="placeholder-message">O desenvolvimento do módulo de reservas está pendente.</td></tr>`;
-    },
+        this.list.innerHTML = '';
+        const reservations = DataService.getReservations();
 
-    // 3. Funções auxiliares
-    add(itemId, userId) {
-        //    - Lógica para adicionar uma nova reserva.
-        //    - Verificar se o usuário já não tem uma reserva para o mesmo item.
-        //    - Criar o objeto 'reservation' e chamar DataService.addReservation().
-        //    - Mostrar um alerta de sucesso.
-        //    - Chamar this.render() para atualizar a lista.
-        console.log(`Tentativa de adicionar reserva para o item ${itemId} pelo usuário ${userId}`);
-        alert('Funcionalidade de adicionar reserva a ser implementada.');
+        if (reservations.length === 0) {
+            this.list.innerHTML = `<tr><td colspan="3" class="placeholder-message">Nenhuma reserva ativa no momento.</td></tr>`;
+            return;
+        }
+        
+        // Ordena por item para agrupar
+        reservations.sort((a,b) => a.itemId.localeCompare(b.itemId));
+
+        reservations.forEach(res => {
+            const item = DataService.findItemById(res.itemId);
+            const user = DataService.findUserById(res.userId);
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item ? item.title : 'Item não encontrado'}</td>
+                <td>${user ? user.name : 'Usuário não encontrado'}</td>
+                <td>${new Date(res.date).toLocaleDateString()}</td>
+            `;
+            this.list.appendChild(row);
+        });
+    },
+    
+    add(itemId) {
+        // Simula um prompt para selecionar o usuário (idealmente, seria um select)
+        const userId = prompt("Digite o ID do usuário para a reserva (em um sistema real, aqui haveria um seletor de usuários):");
+        const user = DataService.findUserById(userId);
+
+        if (!user) {
+            alert('Usuário não encontrado.');
+            return;
+        }
+        if (user.suspended) {
+            alert('Usuário suspenso não pode fazer reservas.');
+            return;
+        }
+
+        // Verifica se o usuário já tem reserva para este item
+        const existingReservation = DataService.getReservations().find(r => r.userId === userId && r.itemId === itemId);
+        if (existingReservation) {
+            alert('Este usuário já possui uma reserva para este item.');
+            return;
+        }
+
+        const reservation = {
+            itemId,
+            userId,
+            date: new Date().toISOString()
+        };
+        
+        DataService.addReservation(reservation);
+        alert('Reserva realizada com sucesso!');
+        this.render();
     }
 };
-
