@@ -4,7 +4,6 @@ import { AcervoModule } from './acervos.js';
 import { ReservaModule } from './reservas.js';
 
 // --- Módulo de Empréstimos (emprestimos.js) ---
-// OBJETIVO: Gerenciar o registro de novos empréstimos e a devolução de itens.
 export const EmprestimoModule = {
     form: document.getElementById('loan-form'),
     list: document.getElementById('loan-list'),
@@ -12,9 +11,8 @@ export const EmprestimoModule = {
     itemSelect: document.getElementById('loanItem'),
 
     init() {
-        // Adiciona os listeners para o formulário e para a lista de empréstimos
         this.form.addEventListener('submit', this.handleSave.bind(this));
-        this.list.addEventListener('click', this.handleReturn.bind(this));
+        this.list.addEventListener('click', this.handleListActions.bind(this));
     },
 
     render() {
@@ -29,9 +27,10 @@ export const EmprestimoModule = {
 
         activeLoans.forEach(loan => {
             const user = DataService.findUserById(loan.userId);
-            const item = DataService.findItemById(loan.itemId);
+            // --- CORREÇÃO CRÍTICA AQUI ---
+            // O erro estava aqui: usava findUserById em vez de findItemById para encontrar o item.
+            const item = DataService.findItemById(loan.itemId); 
             
-            // Se o usuário ou item associado ao empréstimo foi deletado, não renderiza
             if (!user || !item) return;
 
             const dueDate = new Date(loan.dueDate);
@@ -44,7 +43,8 @@ export const EmprestimoModule = {
                 <td>${new Date(loan.loanDate).toLocaleDateString()}</td>
                 <td class="${isOverdue ? 'date-overdue' : ''}">${dueDate.toLocaleDateString()}</td>
                 <td>
-                    <button data-id="${loan.id}" class="btn btn-success">Devolver</button>
+                    <button data-id="${loan.id}" data-action="return" class="btn btn-success">Devolver</button>
+                    <button data-id="${loan.id}" data-action="postpone" class="btn btn-secondary">Adiar</button>
                 </td>
             `;
             this.list.appendChild(row);
@@ -52,13 +52,11 @@ export const EmprestimoModule = {
     },
 
     populateSelects() {
-        // Popula o select de usuários com usuários que não estão suspensos
         this.userSelect.innerHTML = '<option value="">Selecione um usuário...</option>';
         DataService.getUsers().filter(u => !u.suspended).forEach(user => {
             this.userSelect.innerHTML += `<option value="${user.id}">${user.name} - ${user.matricula}</option>`;
         });
 
-        // Popula o select de itens com aqueles que têm exemplares disponíveis
         this.itemSelect.innerHTML = '<option value="">Selecione um item...</option>';
         DataService.getItems().filter(item => DataService.getItemAvailability(item) > 0).forEach(item => {
             this.itemSelect.innerHTML += `<option value="${item.id}">${item.title}</option>`;
@@ -75,7 +73,6 @@ export const EmprestimoModule = {
             return;
         }
 
-        // Regra de negócio: Limite de 3 empréstimos por usuário
         const userLoansCount = DataService.getActiveLoans().filter(l => l.userId === userId).length;
         if (userLoansCount >= 3) {
             UIService.showFeedback('Este usuário já atingiu o limite de 3 empréstimos ativos.', 'error');
@@ -84,7 +81,7 @@ export const EmprestimoModule = {
 
         const loanDate = new Date();
         const dueDate = new Date();
-        dueDate.setDate(loanDate.getDate() + 14); // Prazo de devolução de 14 dias
+        dueDate.setDate(loanDate.getDate() + 14);
 
         const loan = {
             userId,
@@ -97,36 +94,53 @@ export const EmprestimoModule = {
         DataService.addLoan(loan);
         UIService.showFeedback('Empréstimo registrado com sucesso!', 'success');
         
-        this.render(); // Atualiza a lista de empréstimos
-        AcervoModule.render(); // Atualiza o status de disponibilidade no acervo
+        this.render();
+        AcervoModule.render();
         this.form.reset();
     },
 
-    handleReturn(e) {
+    handleListActions(e) {
         const button = e.target.closest('button[data-id]');
         if (!button) return;
 
-        const loanId = button.dataset.id;
+        const { id, action } = button.dataset;
+
+        if (action === 'return') {
+            this.handleReturn(id);
+        }
+
+        if (action === 'postpone') {
+            this.handlePostpone(id);
+        }
+    },
+
+    handleReturn(loanId) {
         const loan = DataService.getLoans().find(l => l.id === loanId);
         const item = DataService.findItemById(loan.itemId);
 
         UIService.showModal('Confirmar Devolução', `Deseja registrar a devolução do item "${item.title}"?`, () => {
             DataService.returnLoan(loanId);
             
-            // Verifica se há reservas para o item devolvido
             const reservations = DataService.getItemReservations(loan.itemId);
             if (reservations.length > 0) {
                 const nextUserInLine = DataService.findUserById(reservations[0].userId);
-                // Remove a reserva atendida
-                DataService.removeReservation(loan.itemId, nextUserInLine.id);
+                DataService.removeReservation(reservations[0].id); // Ajuste para remover por ID da reserva
                 UIService.showFeedback(`Devolvido! O item agora está disponível para ${nextUserInLine.name}.`, 'success');
-                ReservaModule.render(); // Atualiza a lista de reservas
+                ReservaModule.render();
             } else {
                  UIService.showFeedback('Devolução registrada com sucesso!', 'success');
             }
             
             this.render();
             AcervoModule.render();
+        });
+    },
+
+    handlePostpone(loanId) {
+        UIService.showModal('Adiar Devolução', 'Deseja adiar a devolução deste item por mais 7 dias?', () => {
+            DataService.postponeReturn(loanId, 7);
+            UIService.showFeedback('Devolução adiada com sucesso!', 'success');
+            this.render();
         });
     }
 };

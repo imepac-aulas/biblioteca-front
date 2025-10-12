@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const App = {
         init() {
             DataService.loadData();
-            UIService.init(this.navigateTo); // Passa a função de navegação para o UIService
+            UIService.init(this.navigateTo);
             UserModule.init();
             AcervoModule.init();
             EmprestimoModule.init();
@@ -20,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
             DashboardModule.init();
             RelatorioModule.init();
 
-            // Define a view inicial e atualiza os dados
             this.navigateTo('dashboard');
         },
         
@@ -32,6 +31,8 @@ document.addEventListener('DOMContentLoaded', function() {
             if (viewName === 'acervos') AcervoModule.render();
             if (viewName === 'emprestimos') EmprestimoModule.render();
             if (viewName === 'reservas') ReservaModule.render();
+            // --- GARANTIA DA CORREÇÃO ---
+            // Esta linha garante que os dados dos relatórios sejam calculados e exibidos.
             if (viewName === 'relatorios') RelatorioModule.render();
         },
     };
