@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Acervos | Biblioteca+ Soluções</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+  <header>
+    <h1>Controle de Acervos</h1>
+    <p>Visualize e pesquise os títulos disponíveis</p>
+    <nav>
+      <a href="../index.html">Início</a>
+      <a href="login.html">Login</a>
+      <a href="acervos.html">Controle de Acervos</a>
+      <a href="emprestimos.html">Empréstimos</a>
+      <a href="reservas.html">Reservas</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Pesquisar Acervo</h2>
+
+    <div class="busca-container">
+      <input type="text" id="inputBusca" placeholder="Buscar por título">
+      <button id="btnBuscar">Buscar</button>
+      <button id="btnLimpar">Limpar</button>
+    </div>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      Carregando acervos...
+    </div>
+
+    <table id="tabelaAcervos">
+      <thead>
+        <tr>
+          <th>Título</th>
+          <th>Autor</th>
+          <th>Tipo</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Resultados aqui -->
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Biblioteca+ Soluções | Sistema de Acervos</p>
+  </footer>
+
+  <script src="../scripts/acervos.js"></script>
+
+</body>
+</html>
