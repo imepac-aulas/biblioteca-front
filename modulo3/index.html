@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca+ | Gestão de Acervos e Empréstimos</title>
+    <!-- Carregamento do Tailwind e da Fonte -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Link para o novo arquivo CSS -->
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body class="flex flex-col">
+
+    <!-- Container de Notificações Toast (mantido, mas não usado por este JS) -->
+    <div id="toast-container"></div>
+
+    <!-- Header do Sistema -->
+    <header>
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center">
+            <div class="text-center sm:text-left">
+                <h1>📚 Biblioteca+ Soluções</h1>
+                <p>Sistema Completo de Gestão Bibliotecária</p>
+            </div>
+            <div id="auth-status" class="text-sm mt-2 sm:mt-0">
+                Usuário: <span id="current-user-id" class="font-medium">Sistema Local</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navegação -->
+    <nav>
+        <button class="nav-btn" onclick="showModule('usuarios')">
+            👥 Usuários
+        </button>
+        <button class="nav-btn" onclick="showModule('acervos')">
+            📖 Acervos
+        </button>
+        <button class="nav-btn active" onclick="showModule('emprestimos')">
+            📤 Empréstimos
+        </button>
+        <button class="nav-btn" onclick="showModule('reservas')">
+            🔖 Reservas
+        </button>
+        <button class="nav-btn" onclick="showModule('relatorios')">
+            📊 Relatórios
+        </button>
+    </nav>
+
+    <main>
+        <!-- MÓDULO 1: CADASTRO DE USUÁRIOS -->
+        <div id="usuarios" class="module">
+            <section class="container-card">
+                <h2>👥 Cadastro e Gestão de Usuários</h2>
+                <div id="usuarioSuccess" class="alert alert-success">✅ Usuário cadastrado/atualizado com sucesso!</div>
+                <div id="usuarioError" class="alert alert-danger">❌ Erro na validação. Preencha todos os campos obrigatórios corretamente.</div>
+                
+                <form id="usuarioForm">
+                    <h3>Novo Usuário</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="usuarioNome">Nome Completo<span class="required">*</span>:</label>
+                            <input type="text" id="usuarioNome" required>
+                            <div class="error-message" id="usuarioNomeError">O nome é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuarioCpf">CPF<span class="required">*</span>:</label>
+                            <input type="text" id="usuarioCpf" maxlength="14" required>
+                            <div class="error-message" id="usuarioCpfError">CPF inválido ou obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuarioEmail">E-mail<span class="required">*</span>:</label>
+                            <input type="email" id="usuarioEmail" required>
+                            <div class="error-message" id="usuarioEmailError">E-mail inválido ou obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuarioTelefone">Telefone:</label>
+                            <input type="tel" id="usuarioTelefone" maxlength="15">
+                            <div class="error-message" id="usuarioTelefoneError">Telefone inválido.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuarioTipo">Tipo de Usuário<span class="required">*</span>:</label>
+                            <select id="usuarioTipo" required>
+                                <option value="">Selecione</option>
+                                <option value="Aluno">Aluno</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Colaborador">Colaborador</option>
+                            </select>
+                            <div class="error-message" id="usuarioTipoError">O tipo é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="usuarioMatricula">Matrícula/ID<span class="required">*</span>:</label>
+                            <input type="text" id="usuarioMatricula" required>
+                            <div class="error-message" id="usuarioMatriculaError">A matrícula é obrigatória.</div>
+                        </div>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparUsuarioForm()">Limpar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Usuário</button>
+                    </div>
+                </form>
+
+            </section>
+            
+            <section class="container-card mt-6">
+                <h2>Lista de Usuários</h2>
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <input type="text" id="searchUsuarioNome" class="flex-grow" placeholder="🔍 Pesquisar por nome...">
+                    <select id="searchUsuarioTipo">
+                        <option value="">Filtrar por Tipo (Todos)</option>
+                        <option value="Aluno">Aluno</option>
+                        <option value="Professor">Professor</option>
+                        <option value="Colaborador">Colaborador</option>
+                    </select>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>CPF</th>
+                                <th>Tipo</th>
+                                <th>Matrícula</th>
+                                <th>Status</th>
+                                <th>Empréstimos (Ativos/Limite)</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="usuariosTable">
+                            <!-- Conteúdo inserido pelo JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- MÓDULO 2: GESTÃO DE ACERVOS -->
+        <div id="acervos" class="module">
+            <section class="container-card">
+                <h2>📖 Cadastro e Gestão de Acervos</h2>
+                <div id="acervoSuccess" class="alert alert-success">✅ Item de acervo cadastrado/atualizado com sucesso!</div>
+
+                <form id="acervoForm">
+                    <h3>Novo Item</h3>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="acervoTitulo">Título<span class="required">*</span>:</label>
+                            <input type="text" id="acervoTitulo" required>
+                            <div class="error-message" id="acervoTituloError">O título é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="acervoAutor">Autor<span class="required">*</span>:</label>
+                            <input type="text" id="acervoAutor" required>
+                            <div class="error-message" id="acervoAutorError">O autor é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="acervoCategoria">Categoria<span class="required">*</span>:</label>
+                            <select id="acervoCategoria" required>
+                                <option value="">Selecione</option>
+                                <option value="Literatura">Literatura</option>
+                                <option value="Ciência">Ciência</option>
+                                <option value="História">História</option>
+                                <option value="Didático">Didático</option>
+                            </select>
+                            <div class="error-message" id="acervoCategoriaError">A categoria é obrigatória.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="acervoTipo">Tipo<span class="required">*</span>:</label>
+                            <select id="acervoTipo" required>
+                                <option value="">Selecione</option>
+                                <option value="Livro">Livro</option>
+                                <option value="Revista">Revista</option>
+                                <option value="Eletrônico">Eletrônico</option>
+                            </select>
+                            <div class="error-message" id="acervoTipoError">O tipo é obrigatório.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="acervoExemplares">Qtd. Exemplares<span class="required">*</span>:</label>
+                            <input type="number" id="acervoExemplares" min="1" value="1" required>
+                            <div class="error-message" id="acervoExemplaresError">O número de exemplares deve ser maior que 0.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="acervoStatus">Status Inicial:</label>
+                            <select id="acervoStatus">
+                                <option value="Disponível">Disponível</option>
+                                <option value="Em Manutenção">Em Manutenção</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="acervoDescricao">Descrição/Observações:</label>
+                        <textarea id="acervoDescricao"></textarea>
+                    </div>
+                    
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-secondary" onclick="limparAcervoForm()">Limpar</button>
+                        <button type="submit" class="btn btn-primary">Salvar Item</button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="container-card mt-6">
+                <h2>Acervos Cadastrados</h2>
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <input type="text" id="searchAcervoTitulo" class="flex-grow" placeholder="🔍 Pesquisar por título...">
+                    <input type="text" id="searchAcervoAutor" class="flex-grow" placeholder="🔍 Pesquisar por autor...">
+                    <select id="searchAcervoCategoria">
+                        <option value="">Categoria (Todas)</option>
+                        <option value="Literatura">Literatura</option>
+                        <option value="Ciência">Ciência</option>
+                        <option value="História">História</option>
+                        <option value="Didático">Didático</option>
+                    </select>
+                    <select id="searchAcervoStatus">
+                        <option value="">Status (Todos)</option>
+                        <option value="Disponível">Disponível</option>
+                        <option value="Emprestado">Emprestado</option>
+                        <option value="Reservado">Reservado</option>
+                        <option value="Em Manutenção">Em Manutenção</option>
+                    </select>
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Título</th>
+                                <th>Autor</th>
+                                <th>Categoria</th>
+                                <th>Exemplares</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="acervosTable">
+                            <!-- Conteúdo inserido pelo JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- MÓDULO 3: EMPRÉSTIMOS E DEVOLUÇÕES (IDs Ajustados) -->
+        <div id="emprestimos" class="module active">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-4">
+                
+                <!-- Registro de Empréstimo -->
+                <section class="container-card" id="loan-section">
+                    <h2>📋 Registro de Novo Empréstimo</h2>
+                    
+                    <!-- ID para validação -->
+                    <div id="emprestimoSuccess" class="alert alert-success">✅ Empréstimo realizado com sucesso!</div>
+                    <div id="emprestimoWarning" class="alert alert-warning">⚠️ Atenção: Verifique os avisos ou preencha os campos.</div>
+                    
+                    <form id="emprestimoForm">
+                        <div class="form-grid">
+                            <!-- Usuário (ID alterado) -->
+                            <div class="form-group">
+                                <label for="emprestimoUsuario">Usuário<span class="required">*</span>:</label>
+                                <select id="emprestimoUsuario" required>
+                                    <option value="">Selecione o usuário</option>
+                                </select>
+                                <div class="error-message" id="emprestimoUsuarioError">Selecione um usuário.</div>
+                            </div>
+
+                            <!-- Acervo/Item (ID alterado) -->
+                            <div class="form-group">
+                                <label for="emprestimoAcervo">Item do Acervo<span class="required">*</span>:</label>
+                                <select id="emprestimoAcervo" required>
+                                    <option value="">Selecione o acervo</option>
+                                </select>
+                                <div class="error-message" id="emprestimoAcervoError">Selecione um acervo disponível.</div>
+                            </div>
+                        </div>
+
+                        <div class="form-grid">
+                            <!-- Data do Empréstimo (ID alterado) -->
+                            <div class="form-group">
+                                <label for="emprestimoData">Data de Empréstimo<span class="required">*</span>:</label>
+                                <input type="date" id="emprestimoData" readonly>
+                            </div>
+
+                            <!-- Data Prevista de Devolução (ID alterado) -->
+                            <div class="form-group">
+                                <label for="emprestimoDataDevolucao">Data Prevista de Devolução<span class="required">*</span>:</label>
+                                <input type="date" id="emprestimoDataDevolucao">
+                                <div class="error-message" id="emprestimoDataDevolucaoError">A data de devolução é obrigatória.</div>
+                            </div>
+                        </div>
+                        
+                        <div class="pt-2">
+                            <button type="submit" class="btn btn-primary">
+                                <span>✓ Registrar Empréstimo</span>
+                            </button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- Devolução (simplificado para usar o renderEmprestimosAtivos) -->
+                <section class="container-card" id="return-section">
+                    <h2>📥 Empréstimos Ativos e Devoluções</h2>
+                    
+                    <div id="devolucaoSuccess" class="alert alert-success">✅ Devolução registrada com sucesso!</div>
+                    
+                    <div id="emprestimosAtivos" class="space-y-4">
+                        <p class="empty-state">Nenhum empréstimo ativo no momento.</p>
+                        <!-- Cards de Empréstimos serão inseridos aqui -->
+                    </div>
+                </section>
+            </div>
+            
+            <!-- Tabela de Histórico (Módulo 3 não usa esta tabela no JS fornecido, mas mantemos o layout caso queira evoluir) -->
+            <section class="container-card mt-6" id="items-section">
+                <h2>🧾 Histórico Completo de Empréstimos</h2>
+                <p class="text-gray-600 mb-4">O histórico completo pode ser visualizado no módulo de Relatórios.</p>
+                <div class="table-wrapper">
+                    <!-- Tabela Vazia - o JS não tem uma função de renderização para este histórico específico. -->
+                </div>
+            </section>
+        </div>
+
+        <!-- MÓDULO 4: RESERVAS -->
+        <div id="reservas" class="module">
+            <section class="container-card">
+                <h2>🔖 Registrar Reserva</h2>
+                <div id="reservaSuccess" class="alert alert-success">✅ Reserva realizada com sucesso!</div>
+
+                <form id="reservaForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="reservaUsuario">Usuário<span class="required">*</span>:</label>
+                            <select id="reservaUsuario" required>
+                                <option value="">Selecione o usuário</option>
+                            </select>
+                            <div class="error-message" id="reservaUsuarioError">Selecione um usuário.</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="reservaAcervo">Item Emprestado<span class="required">*</span>:</label>
+                            <select id="reservaAcervo" required>
+                                <option value="">Selecione o item</option>
+                            </select>
+                            <div class="error-message" id="reservaAcervoError">Selecione um acervo para reservar.</div>
+                        </div>
+                    </div>
+                    <div class="pt-2">
+                        <button type="submit" class="btn btn-primary">
+                            <span>+ Realizar Reserva</span>
+                        </button>
+                    </div>
+                </form>
+            </section>
+            
+            <section class="container-card mt-6">
+                <h2>Reservas Ativas</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Usuário</th>
+                                <th>Data da Reserva</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reservasTable">
+                            <!-- Conteúdo inserido pelo JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+
+        <!-- MÓDULO 5: NOTIFICAÇÕES E RELATÓRIOS -->
+        <div id="relatorios" class="module">
+            <section class="container-card">
+                <h2>📊 Dashboard e Relatórios</h2>
+                <div class="btn-group justify-start mb-4">
+                    <button id="btnGerarRelatorio" class="btn btn-secondary">Gerar/Atualizar Relatório</button>
+                </div>
+
+                <h3>Estatísticas Rápidas</h3>
+                <div class="form-grid">
+                    <!-- Cards de Estatísticas -->
+                    <div class="stat-card">
+                        <h3>Total de Usuários</h3>
+                        <p id="totalUsuarios">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Total de Acervos</h3>
+                        <p id="totalAcervos">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Empréstimos Ativos</h3>
+                        <p id="totalEmprestimos">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Reservas Pendentes</h3>
+                        <p id="totalReservas">0</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="container-card mt-6">
+                <h2>🔔 Notificações Urgentes</h2>
+                <div id="notifications" class="space-y-4">
+                    <p class="empty-state">Nenhuma notificação importante.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="max-w-7xl mx-auto text-center">
+            <p>&copy; 2024 Biblioteca+ Soluções | Tecnologia para o conhecimento</p>
+        </div>
+    </footer>
+
+    <!-- Link para o novo arquivo JavaScript (Mantido como módulo para compatibilidade) -->
+    <script type="module" src="./script.js"></script>
+</body>
+</html>
