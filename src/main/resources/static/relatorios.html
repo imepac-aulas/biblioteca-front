@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notificações e Relatórios - Biblioteca Conecta</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/relatorio.css">
+</head>
+<body>
+    <header style="padding: 1rem; background-color: #fff; box-shadow: 0 2px 4px rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; padding: 1rem 5%;">
+        <a href="index.html" style="text-decoration: none; color: var(--primary-color);"><h1 style="margin: 0; font-size: 1.5rem;">Biblioteca Conecta</h1></a>
+        <nav>
+            <a href="acervo.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Acervo</a>
+            <a href="crud_usuarios.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Usuários</a>
+            <a href="reservas.html" style="margin-left: 20px; text-decoration: none; font-weight: bold;">Reservas</a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1>Painel de Notificações e Relatórios</h1>
+        <div class="main-layout">
+            <div class="card">
+                <h2>Alertas Pendentes</h2>
+                <ul id="notifications-list" class="notifications-list">
+                    </ul>
+                <div class="notifications-actions">
+                    <button id="send-notifications-btn" class="btn btn-primary">Enviar Alertas Selecionados</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Dashboard de Relatórios</h2>
+                <div class="reports-grid">
+                    <div class="report-widget">
+                        <h3>Resumo do Acervo</h3>
+                        <p><span class="stat-number" id="total-titulos">0</span> Títulos Únicos</p>
+                        <p><span class="stat-number" id="total-exemplares">0</span> Exemplares Totais</p>
+                    </div>
+                    <div class="report-widget">
+                        <h3>Estatísticas Gerais</h3>
+                        <p><span class="stat-number" id="total-emprestimos">0</span> Empréstimos no Histórico</p>
+                        <p><span class="stat-number" id="reservas-ativas">0</span> Reservas Ativas</p>
+                    </div>
+                    <div class="report-widget" style="grid-column: 1 / -1;">
+                        <h3>Itens Mais Emprestados</h3>
+                        <ul id="mais-emprestados-list">
+                            </ul>
+                    </div>
+                    <div class="report-widget" style="grid-column: 1 / -1;">
+                        <h3>Usuários com Atraso na Devolução</h3>
+                        <ul id="atrasos-list">
+                            </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="/js/relatorio.js"></script>
+</body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Biblioteca Conecta - Seu portal para o conhecimento</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Lora:wght@400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <a href="#" class="logo">Biblioteca Conecta</a>
+            <nav class="main-nav">
+                <a href="acervo.html">Acervo</a>
+                <a href="reservas.html">Reservas</a>
+                <a href="crud_usuarios.html">Minha Conta</a>
+                <a href="relatorios.html">Notificações</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero" id="search-section">
+            <div class="container">
+                <h1>Qual será sua próxima descoberta?</h1>
+                <p>Busque em nosso acervo completo de livros, revistas, eletrônicos e mais.</p>
+                <div class="search-bar">
+                    <input type="text" id="search-input" placeholder="Digite um título, autor ou palavra-chave...">
+                    <button id="search-button">Buscar</button>
+                </div>
+                <div class="category-filters">
+                    <button data-category="Todos" class="active">Todos</button>
+                    <button data-category="Livro">Livros</button>
+                    <button data-category="Revista">Revistas</button>
+                    <button data-category="Eletrônico">Eletrônicos</button>
+                    <button data-category="Material">Materiais</button>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section" id="content-display">
+            <div class="container">
+                <h2 class="section-title" id="results-title">Novidades no Acervo</h2>
+                <div class="items-grid" id="items-grid">
+                    </div>
+                <p id="results-message" style="display: none;">Nenhum item encontrado.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="container">
+            <p>&copy; 2025 Biblioteca Conecta. Todos os direitos reservados.</p>
+            <p>Av. do Conhecimento, 123 - Centro | <a href="#">Fale Conosco</a></p>
+        </div>
+    </footer>
+
+
+        <script src="/js/script.js"></script>
+</body>
+</html>
